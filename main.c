@@ -36,7 +36,7 @@ List * readBooks() {
     scanf("%[^\n]*s", ids);
     getchar();
 
-    List *ret = listCreate();
+    List *ret = strToList(ids, ' ');
 
 }
 

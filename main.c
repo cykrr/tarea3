@@ -4,11 +4,21 @@
 #include <string.h>
 #include "util.h"
 
-void lower_than(void *k1, void *k2);
+void loadBooks(List* books, TreeMap* sortedBooks)
+{
+    char* id = listFirst(books);
+    while (id != NULL)
+    {
+        
+    }
+}
 
 int main() {
     List *books = readBooks();
+    TreeMap* sortedBooks = createTreeMap(lower_than_string);
+    TreeMap* wordFrecuency = createTreeMap(lower_than_string);
     showList (books);
+    loadBooks(books, sortedBooks);
 
     return 0;
 }

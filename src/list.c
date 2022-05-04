@@ -1,26 +1,15 @@
+#include "list.h"
+#include "assert.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "list.h"
 
-typedef struct Node Node;
 
-struct Node {
-    void * data;
-    Node * next;
-    Node * prev;
-};
 
-struct List {
-    Node * head;
-    Node * tail;
-    Node * current;
-};
-
-typedef List List;
-
-Node * createNode(void * data) {
-    Node * new = (Node *)malloc(sizeof(Node));
+ListNode * nodeCreate(void * data) {
+    ListNode * new = (ListNode *)malloc(sizeof(ListNode));
     assert(new != NULL);
     new->data = data;
     new->prev = NULL;
@@ -28,41 +17,43 @@ Node * createNode(void * data) {
     return new;
 }
 
-List * createList() {
+List * listCreate() {
      List * new = (List *)malloc(sizeof(List));
      assert(new != NULL);
      new->head = new->tail = new->current = NULL;
+     new->length = 0;
+     strcpy(new->name, "");
      return new;
 }
 
-void * firstList(List * list) {
+void * listFirst(List * list) {
     if (list == NULL || list->head == NULL) return NULL;
     list->current = list->head;
     return (void *)list->current->data;
 }
 
-void * nextList(List * list) {
+void * listNext(List * list) {
     if (list == NULL || list->head == NULL || list->current == NULL || list->current->next == NULL) return NULL;
     list->current = list->current->next;
     return (void *)list->current->data;
 }
 
-void * lastList(List * list) {
+void * listLast(List * list) {
     if (list == NULL || list->head == NULL) return NULL;
     list->current = list->tail;
     return (void *)list->current->data;
 }
 
-void * prevList(List * list) {
+void * listPrev(List * list) {
     if (list == NULL || list->head == NULL || list->current == NULL || list->current->prev == NULL) return NULL;
     list->current = list->current->prev;
     return (void *)list->current->data;
 }
 
-void pushFront(List * list, void * data) {
+void listPushFront(List * list, void * data) {
     assert(list != NULL);
     
-    Node * new = createNode(data);
+    ListNode * new = nodeCreate(data);
     
     if (list->head == NULL) {
         list->tail = new;
@@ -72,17 +63,18 @@ void pushFront(List * list, void * data) {
     }
     
     list->head = new;
+    list->length++;
 }
 
-void pushBack(List * list, void * data) {
+void listPushBack(List * list, void * data) {
     list->current = list->tail;
-    if(list->current==NULL) pushFront(list,data);
-    else pushCurrent(list,data);
+    if(list->current==NULL) listPushFront(list,data);
+    else listPushCurrent(list,data);
 }
 
-void pushCurrent(List * list, void * data) {
+void listPushCurrent(List * list, void * data) {
     assert(list != NULL && list->current !=NULL);
-    Node * new = createNode(data);
+    ListNode * new = nodeCreate(data);
 
     if(list->current->next)
         new->next = list->current->next;
@@ -95,24 +87,25 @@ void pushCurrent(List * list, void * data) {
     if(list->current==list->tail)
         list->tail=new;
 
+    list->length++;
 }
 
-void * popFront(List * list) {
+void * listPopFront(List * list) {
     list->current = list->head;
-    return popCurrent(list);
+    return listPopCurrent(list);
 }
 
-void * popBack(List * list) {
+void * listPopBack(List * list) {
     list->current = list->tail;
-    return popCurrent(list);
+    return listPopCurrent(list);
 }
 
-void * popCurrent(List * list) {
+void * listPopCurrent(List * list) {
     assert(list != NULL || list->head != NULL);
     
     if (list->current == NULL) return NULL;
     
-    Node * aux = list->current;
+    ListNode * aux = list->current;
     
     if (aux->next != NULL) 
         aux->next->prev = aux->prev;
@@ -136,14 +129,18 @@ void * popCurrent(List * list) {
 
     
     free(aux);
+
+    list->length--;
     
     return data;
 }
 
-void cleanList(List * list) {
+void listClean(List * list) {
     assert(list != NULL);
     
     while (list->head != NULL) {
-        popFront(list);
+        listPopFront(list);
     }
+    list->length = 0;
 }
+

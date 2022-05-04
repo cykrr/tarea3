@@ -55,7 +55,12 @@ void loadBooks(List* books, TreeMap* sortedBooks)
     char* id = listFirst(books);
     while (id != NULL)
     {
-        
+        Book *book = createBook(id);
+
+        if(book != NULL) 
+            insertTreeMap(sortedBooks, book->title, book);
+
+        id = listNext(books);
     }
 }
 
@@ -63,8 +68,10 @@ int main() {
     List *books = readBooks();
     TreeMap* sortedBooks = createTreeMap(lower_than_string);
     //TreeMap* wordFrecuency = createTreeMap(lower_than_string);
-    showList (books);
+    //showList (books);
     loadBooks(books, sortedBooks);
+
+    showBooks(sortedBooks);
 
     return 0;
 }

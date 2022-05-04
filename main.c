@@ -30,10 +30,10 @@ List *strToList(const char *string, const char delim){
 
 List * readBooks() {
     printf("Ingrese los ID de los libros a leer: ");
-    char in[100];
+    char ids[100];
 
     fflush(stdin);
-    scanf("%[^\n]*s", in);
+    scanf("%[^\n]*s", ids);
     getchar();
 
     List *ret = listCreate();

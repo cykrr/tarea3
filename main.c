@@ -35,6 +35,21 @@ Book *createBook(char *id) {
     return book;
 }
 
+void showBooks(TreeMap *sortedMap) 
+{
+    Pair *bookPair = firstTreeMap(sortedMap);
+    Book *book;
+    while (bookPair != NULL) 
+    {
+        book = bookPair->value;
+
+        printf("ID: %s\n", book->id);
+        printf("Title: %s\n", book->title);
+
+        bookPair = nextTreeMap(sortedMap);
+    }
+}
+
 void loadBooks(List* books, TreeMap* sortedBooks)
 {
     char* id = listFirst(books);

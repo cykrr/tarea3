@@ -15,7 +15,6 @@ void showList (List* list)
     }     
 }
 
-
 List * readBooks() {
     printf("Ingrese los ID de los libros a leer: ");
     char ids[100];
@@ -24,7 +23,7 @@ List * readBooks() {
     scanf("%[^\n]*s", ids);
     getchar();
 
-    List *ret = strToList(ids, ' ');
+    List *ret = strToList(ids, " ");
 
     return ret;
 }

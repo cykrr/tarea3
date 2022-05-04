@@ -1,7 +1,7 @@
 #include "util.h"
 #include <string.h>
 
-#ifndef WIN32
+#ifndef _WIN32
     char * _strdup(const char * str) {
         char * aux = (char *)malloc(strlen(str) + 1);
         strcpy(aux, str);

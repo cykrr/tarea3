@@ -2,7 +2,7 @@
 #define UTIL_H
 #include "list.h"
 
-#ifndef WIN32
+#ifndef _WIN32
 char *_strdup(const char *str);
 #endif
 

@@ -3,6 +3,7 @@
 #include "list.h"
 #include <string.h>
 #include "util.h"
+#include "book.h"
 
 void loadBooks(List* books, TreeMap* sortedBooks)
 {
@@ -16,7 +17,7 @@ void loadBooks(List* books, TreeMap* sortedBooks)
 int main() {
     List *books = readBooks();
     TreeMap* sortedBooks = createTreeMap(lower_than_string);
-    TreeMap* wordFrecuency = createTreeMap(lower_than_string);
+    //TreeMap* wordFrecuency = createTreeMap(lower_than_string);
     showList (books);
     loadBooks(books, sortedBooks);
 

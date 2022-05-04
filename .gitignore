@@ -3,3 +3,6 @@ compile_commands.json
 tarea3*
 a.exe
 .vscode/c_cpp_properties.json
+
+.ccls-cache/@@home@krr@tarea3
+.ccls-cache/@home@krr@tarea3

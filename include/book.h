@@ -1,6 +1,7 @@
 #ifndef BOOK_H
 #define BOOK_H
 #include "treemap.h"
+#include "list.h"
 
 typedef struct Book {
     // Mapa de palabras

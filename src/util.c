@@ -21,6 +21,6 @@ List *strToList(const char *string, const char* delim){
         listPushBack(list, token);
         token = strtok(NULL, delim);
     }  
-            
+     
     return list;
 }

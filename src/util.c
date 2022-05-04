@@ -24,3 +24,10 @@ List *strToList(const char *string, const char* delim){
      
     return list;
 }
+
+int lower_than_string(void* key1, void* key2){
+    char* k1=(char*) key1;
+    char* k2=(char*) key2;
+    if(strcmp(k1,k2)<0) return 1;
+    return 0;
+}

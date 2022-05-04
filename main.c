@@ -26,9 +26,11 @@ Book *createBook(char *id) {
         return NULL; 
     }
 
+    // Avanzar 34 caracteres para leer el titulo.
     for(int i = 0; i < 34; i++) fgetc(book->fd);
     fgets(book->title, 100*sizeof(char), book->fd);
 
+    // Eliminar el Autor si es que existe.
     char *comma = strchr(book->title, ',');
     if(comma != NULL) *comma = '\0';
 

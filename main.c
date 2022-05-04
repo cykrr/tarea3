@@ -10,10 +10,10 @@ char * _strdup(const char * str) {
 }
 
 //Crea la lista de generos y guarda los mismos al detectarlos
-List *strToList(const char *genre, const char delim){
+List *strToList(const char *string, const char delim){
     List *list = listCreate();
 
-    char *aux = _strdup(genre);
+    char *aux = _strdup(string);
     char *token = strtok(aux, &delim);
 
     int flag = 0;

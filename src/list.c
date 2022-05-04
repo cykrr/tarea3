@@ -6,8 +6,6 @@
 #include <string.h>
 #include "list.h"
 
-
-
 ListNode * nodeCreate(void * data) {
     ListNode * new = (ListNode *)malloc(sizeof(ListNode));
     assert(new != NULL);
@@ -22,7 +20,6 @@ List * listCreate() {
      assert(new != NULL);
      new->head = new->tail = new->current = NULL;
      new->length = 0;
-     strcpy(new->name, "");
      return new;
 }
 

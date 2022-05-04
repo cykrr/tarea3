@@ -3,25 +3,25 @@
 #include <stdlib.h>
 
 
-struct Node {
+struct ListNode {
     void * data;
-    struct Node * next;
-    struct Node * prev;
+    struct ListNode * next;
+    struct ListNode * prev;
 };
 
-typedef struct Node Node;
+typedef struct ListNode ListNode;
 
 typedef struct List List;
 
 struct List {
-    Node * head;
-    Node * tail;
-    Node * current;
+    ListNode * head;
+    ListNode * tail;
+    ListNode * current;
     size_t length;
 };
 
 
-Node * nodeCreate(void * data);
+ListNode * nodeCreate(void * data);
 List * listCreate();
 
 void * listFirst(List * list);

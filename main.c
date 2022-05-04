@@ -38,6 +38,7 @@ List * readBooks() {
 
     List *ret = strToList(ids, ' ');
 
+    return ret;
 }
 
 void lower_than(void *k1, void *k2);

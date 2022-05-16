@@ -3,7 +3,7 @@
 #include "list.h"
 
 typedef struct Word {
-    char word[20];
+    char word[100];
     int frequency;
     List *positions;
 } Word;

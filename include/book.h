@@ -3,6 +3,7 @@
 #include "treemap.h"
 #include "list.h"
 #include <stdio.h>
+#include "word.h"
 
 typedef struct Book {
     // Mapa de palabras
@@ -24,5 +25,9 @@ void loadBooks(List *books, TreeMap *sortedBooks);
 void showBooks(TreeMap *sortedMap);
 
 void countWords(Book *book);
+
+void searchBooks(TreeMap *map);
+
+void showBook(Book *book, Word *word);
 
 #endif

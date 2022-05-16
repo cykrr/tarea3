@@ -36,7 +36,7 @@ int main() {
                 showBooks(sortedBooks);
                 break;
             case 'b':
-//                searchBooks(sortedBooks);
+                searchBooks(sortedBooks);
                 break;
         }
     }

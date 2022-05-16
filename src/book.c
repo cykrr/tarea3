@@ -136,8 +136,37 @@ countWords(Book *book)
         else 
         {
             ((Word*)(aux->value))->frequency++;
-            printf("%s\n ", (char*)aux->value);
+    //        printf("%s\n ", (char*)aux->value);
         }
    }
     putchar('\n');
+}
+
+void 
+searchBooks(TreeMap *map) 
+{
+    char in[50];
+    printf("Ingrese la palabra a buscar: ");
+    scanf("%s", in);
+    getchar();
+    Pair *aux = firstTreeMap(map);
+    Book *auxBook = NULL;
+    while ( aux != NULL)
+    {
+        auxBook = aux->value;
+        Pair * auxWord = searchTreeMap(auxBook->wordFrequency, in);
+        if (auxWord != NULL) {
+            showBook(auxBook, auxWord->value);
+        }
+        aux = nextTreeMap(map);
+    }
+}
+
+void 
+showBook(Book *book, Word *word) 
+{
+    printf("ID: %s\n", book->id);
+    printf("Titulo: %s\n", book->title);
+    printf("Apariciones: %d\n", word->frequency);
+
 }

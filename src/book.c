@@ -5,6 +5,13 @@
 #include <stdio.h>
 #include <string.h>
 
+int inverse_lower_than_string(void* key1, void* key2){
+    char* k1=(char*) key1;
+    char* k2=(char*) key2;
+    if(strcmp(k2,k1)<0) return 1;
+    return 0;
+}
+
 void showList (List* list)
 {
     char* id = listFirst(list);

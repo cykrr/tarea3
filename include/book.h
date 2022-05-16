@@ -16,4 +16,9 @@ void showList (List* list);
 
 List * readBooks();
 
+Book *createBook(char *id);
+
+void loadBooks(List *books, TreeMap *sortedBooks);
+void showBooks(TreeMap *sortedMap);
+
 #endif

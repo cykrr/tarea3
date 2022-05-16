@@ -23,7 +23,7 @@ void showList (List* list)
     }     
 }
 
-List * readBooks() {
+List * readBooks(int *count) {
     printf("Ingrese los ID de los libros a leer: ");
     char ids[100];
 
@@ -31,7 +31,7 @@ List * readBooks() {
     scanf("%[^\n]*s", ids);
     getchar();
 
-    List *ret = strToList(ids, " ");
+    List *ret = strToList(ids, " ", count);
 
     return ret;
 }
@@ -43,7 +43,7 @@ Book *createBook(char *id) {
         printf("Error guardando memoria para Book\n");
     }
 
-    book->wordFrequency = createTreeMap(lower_than_string);
+    book->wordFrequency = createTreeMap(inverse_lower_than_string);
     strcpy(book->id, id);
 
     char fileName[100];

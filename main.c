@@ -11,6 +11,8 @@
 int main() {
     List *books = NULL; 
     TreeMap* sortedBooks = createTreeMap(lower_than_string);
+    int bookCount = 0;
+
     //showList (books);
 
 
@@ -22,7 +24,7 @@ int main() {
 
         switch (in) {
             case 'i':
-                books = readBooks();
+                books = readBooks(&bookCount);
                 loadBooks(books, sortedBooks);
                 break;
             case 'm':

@@ -37,7 +37,7 @@ char* stringToLower(char* words)
     int i = 0;
     while (words[i] != '\0')
     {
-        tolower(words[i]);
+        words[i] = tolower(words[i]);
         i++;
     }
     return words;

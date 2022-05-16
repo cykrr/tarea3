@@ -52,23 +52,28 @@ int hayQueEliminar(char c, char* string_chars)
     return 0;
 }
 
+#include <stdio.h>
+
 char* quitar_caracteres(char* string, char* c)
 {
-    int i;
-    int j;
-    for(i=0 ; i < strlen(string) ; i++)
+//    printf("Antes: %s\n", string);
+ //   printf("Caracteres: %s\n", c);
+    for(int i = 0; i < strlen(string); i++ ) 
     {
-        if(hayQueEliminar(string[i], c))
+//        printf("i: %d, %c, %d\n", 
+ //               i, string[i],
+  //              hayQueEliminar(string[i], c));
+        if (hayQueEliminar(string[i], c)) 
         {
-            for(j=i ; j<strlen(string)-1 ;j++)
-            {
+            for(int j = i; j < strlen(string); j++ ) {
+   //             printf("%c ", string[j]);
                 string[j] = string[j+1];
             }
+            i--;
+    //        printf("\n %s\n",string);
         }
-        string[j]='\0';
-        i--;
-    }
 
+    }
     return string;
 }
 

@@ -1,6 +1,7 @@
 #include "book.h"
 #include "list.h"
 #include "util.h"
+#include "word.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -35,6 +36,7 @@ Book *createBook(char *id) {
         printf("Error guardando memoria para Book\n");
     }
 
+    book->wordFrequency = createTreeMap(lower_than_string);
     strcpy(book->id, id);
 
     char fileName[100];
@@ -95,11 +97,27 @@ void loadBooks(List* books, TreeMap* sortedBooks)
 void 
 countWords(Book *book)
 {
-   char x[1024];
-   while (fscanf(book->fd, " %1023s", x) == 1) 
-   {
-       printf("%s ", x);
 
-       book->charCount += strlen(x);
+    char * x = malloc(1024 * sizeof (char) );
+    while (fscanf(book->fd, " %1023s", x) == 1) 
+    {
+        book->charCount += strlen(x);
+        quitar_caracteres(x, "?,.\":;/!-()\'=*%%");
+        stringToLower(x);
+        Pair *aux = searchTreeMap(book->wordFrequency, x);
+        if (aux == NULL)
+        {
+            Word *word = malloc(sizeof(Word));
+            strcpy(word->word, x);
+            word->frequency = 1;
+            word->positions = NULL; // TODO
+            insertTreeMap(book->wordFrequency, x, word);
+        } 
+        else 
+        {
+            ((Word*)(aux->value))->frequency++;
+        }
+        printf("%s ", x);
    }
+    putchar('\n');
 }

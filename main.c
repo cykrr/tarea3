@@ -11,7 +11,6 @@
 int main() {
     List *books = NULL; 
     TreeMap* sortedBooks = createTreeMap(lower_than_string);
-    //TreeMap* wordFrecuency = createTreeMap(lower_than_string);
     //showList (books);
 
 

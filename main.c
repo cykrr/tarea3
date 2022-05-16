@@ -15,12 +15,17 @@ int main() {
 
     //showList (books);
 
-
     char in = 0;
-    while ( in != 'q') {
+    while (1) 
+    {
         showMenu();
         scanf("%c", &in);
         getchar(); // Eliminar \n del stdin
+        if (in == 'q')
+        {
+            printf("Gracias por utilizar el programa!");
+            return;
+        }
 
         switch (in) {
             case 'i':

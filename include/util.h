@@ -11,4 +11,6 @@ List *strToList(const char *string, const char* delim);
 
 int lower_than_string(void* key1, void* key2);
 
+char* stringToLower(char* words);
+
 #endif

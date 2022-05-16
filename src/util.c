@@ -1,5 +1,6 @@
 #include "util.h"
 #include <string.h>
+#include <ctype.h>
 
 #ifndef _WIN32
     char * _strdup(const char * str) {
@@ -8,7 +9,6 @@
         return aux;
     }
 #endif
-
 
 //Crea la lista de generos y guarda los mismos al detectarlos
 List *strToList(const char *string, const char* delim){
@@ -30,4 +30,15 @@ int lower_than_string(void* key1, void* key2){
     char* k2=(char*) key2;
     if(strcmp(k1,k2)<0) return 1;
     return 0;
+}
+
+char* stringToLower(char* words)
+{
+    int i = 0;
+    while (words[i] != '\0')
+    {
+        tolower(words[i]);
+        i++;
+    }
+    return words;
 }

@@ -10,6 +10,7 @@ typedef struct Book {
     char title[100];
     char id[30];
     FILE* fd;
+    long charCount;
 } Book;
 
 void showList (List* list);
@@ -20,5 +21,7 @@ Book *createBook(char *id);
 
 void loadBooks(List *books, TreeMap *sortedBooks);
 void showBooks(TreeMap *sortedMap);
+
+void countWords(Book *book);
 
 #endif

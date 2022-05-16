@@ -30,6 +30,7 @@ List * readBooks() {
 
 Book *createBook(char *id) {
     Book *book = malloc(sizeof(Book));
+    book->charCount = 0;
     if(!book) {
         printf("Error guardando memoria para Book\n");
     }
@@ -56,6 +57,8 @@ Book *createBook(char *id) {
     // Eliminar el Autor si es que existe.
     char *comma = strchr(book->title, ',');
     if(comma != NULL) *comma = '\0';
+
+    countWords(book);
 
     return book;
 }
@@ -87,4 +90,16 @@ void loadBooks(List* books, TreeMap* sortedBooks)
 
         id = listNext(books);
     }
+}
+
+void 
+countWords(Book *book)
+{
+   char x[1024];
+   while (fscanf(book->fd, " %1023s", x) == 1) 
+   {
+       printf("%s ", x);
+
+       book->charCount += strlen(x);
+   }
 }

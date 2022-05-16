@@ -42,3 +42,33 @@ char* stringToLower(char* words)
     }
     return words;
 }
+
+int hayQueEliminar(char c, char* string_chars)
+{
+    for(int i=0 ; i<strlen(string_chars) ; i++)
+    {
+        if(string_chars[i]==c) return 1;
+    }
+    return 0;
+}
+
+char* quitar_caracteres(char* string, char* c)
+{
+    int i;
+    int j;
+    for(i=0 ; i < strlen(string) ; i++)
+    {
+        if(hayQueEliminar(string[i], c))
+        {
+            for(j=i ; j<strlen(string)-1 ;j++)
+            {
+                string[j] = string[j+1];
+            }
+        }
+        string[j]='\0';
+        i--;
+    }
+
+    return string;
+}
+

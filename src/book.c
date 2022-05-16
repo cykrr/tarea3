@@ -36,9 +36,12 @@ List * readBooks(int *count) {
     return ret;
 }
 
-Book *createBook(char *id) {
+Book*
+createBook(char *id)
+{
     Book *book = malloc(sizeof(Book));
     book->charCount = 0;
+    book->wordCount = 0;
     if(!book) {
         printf("Error guardando memoria para Book\n");
     }
@@ -118,6 +121,7 @@ countWords(Book *book)
     while (fscanf(book->fd, " %1023s", x) == 1) 
     {
         book->charCount += strlen(x);
+        book->wordCount++;
         quitar_caracteres(x, "?,.\":;/!-()\'=*%%");
         stringToLower(x);
         Pair *aux = searchTreeMap(book->wordFrequency, x);

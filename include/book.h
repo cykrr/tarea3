@@ -11,6 +11,7 @@ typedef struct Book {
     char id[30];
     FILE* fd;
     long charCount;
+    long wordCount;
 } Book;
 
 void showList (List* list);

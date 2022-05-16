@@ -82,6 +82,15 @@ void showBooks(TreeMap *sortedMap)
 
         printf("ID: %s\n", book->id);
         printf("Title: %s\n", book->title);
+        printf("Populares: \n");
+        Pair *aux = firstTreeMap(book->wordFrequency);
+        Word *auxWord = aux->value;
+        for (int i = 0; i < 10; i++) {
+            auxWord = aux->value;
+            printf("%s: %d\n", auxWord->word, auxWord->frequency);
+            aux = nextTreeMap(book->wordFrequency);
+            if (!aux) break;
+        }
 
         bookPair = nextTreeMap(sortedMap);
     }
@@ -118,13 +127,13 @@ countWords(Book *book)
             strcpy(word->word, x);
             word->frequency = 1;
             word->positions = NULL; // TODO
-            insertTreeMap(book->wordFrequency, x, word);
+            insertTreeMap(book->wordFrequency, word->word, word);
         } 
         else 
         {
             ((Word*)(aux->value))->frequency++;
+            printf("%s\n ", (char*)aux->value);
         }
-        printf("%s ", x);
    }
     putchar('\n');
 }

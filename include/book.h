@@ -19,15 +19,17 @@ void showList (List* list);
 
 List * readBooks();
 
-Book *createBook(char *id);
+Book *createBook(char *id, TreeMap* fileAppearances);
 
-void loadBooks(List *books, TreeMap *sortedBooks);
+void loadBooks(List *books, TreeMap *sortedBooks, TreeMap* fileAppearances);
 void showBooks(TreeMap *sortedMap);
 
-void countWords(Book *book);
+void countWords(Book *book, TreeMap* fileAppearances);
 
 void searchBooks(TreeMap *map);
 
 void showBook(Book *book, Word *word);
+
+void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances);
 
 #endif

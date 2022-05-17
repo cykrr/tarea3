@@ -11,6 +11,7 @@
 int main() {
     List *books = NULL; 
     TreeMap* sortedBooks = createTreeMap(lower_than_string);
+    TreeMap* fileAppearances = createTreeMap(lower_than_string); //Guardara las apariciones de las palabras en todos los archivos
     int bookCount = 0;
 
     //showList (books);
@@ -24,20 +25,30 @@ int main() {
         if (in == 'q')
         {
             printf("Gracias por utilizar el programa!");
-            return;
+            return 0;
         }
 
         switch (in) {
             case 'i':
+            {
                 books = readBooks(&bookCount);
-                loadBooks(books, sortedBooks);
+                loadBooks(books, sortedBooks, fileAppearances);
                 break;
+            }
             case 'm':
+            {
                 showBooks(sortedBooks);
                 break;
+            }
             case 'b':
+            {
                 searchBooks(sortedBooks);
                 break;
+            }
+            case 'r':
+            {
+                getRelevance(sortedBooks, bookCount, fileAppearances);
+            }
         }
     }
 

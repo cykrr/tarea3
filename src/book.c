@@ -24,7 +24,7 @@ void showList (List* list)
     }     
 }
 
-List * readBooks(int *count) {
+List * readBooks() {
     printf("Ingrese los ID de los libros a leer: ");
     char ids[100];
 
@@ -32,7 +32,7 @@ List * readBooks(int *count) {
     scanf("%[^\n]*s", ids);
     getchar();
 
-    List *ret = strToList(ids, " ", count);
+    List *ret = strToList(ids, " ");
 
     return ret;
 }
@@ -100,15 +100,18 @@ void showBooks(TreeMap *sortedMap)
     }
 }
 
-void loadBooks(List* books, TreeMap* sortedBooks, TreeMap* fileAppearances)
+void loadBooks(List* books, TreeMap* sortedBooks, TreeMap* fileAppearances, int *count)
 {
     char* id = listFirst(books);
     while (id != NULL)
     {
         Book *book = createBook(id, fileAppearances);
 
-        if(book != NULL) 
+        if(book != NULL && searchTreeMap(sortedBooks, book->title) == NULL)  {
             insertTreeMap(sortedBooks, book->title, book);
+            *count += 1;
+
+        }
 
         id = listNext(books);
     }
@@ -200,7 +203,12 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
             Pair* tmp = searchTreeMap(fileAppearances, ((Word*)(auxWord->value))->word);
             //int* cont = aa->value;
             printf("Obtener Relevancia\n");
-            ((Word*)(auxWord->value))->relevance = (((Word*)(auxWord->value))->frequency/ auxBook->wordCount) * log(totalDocuments / ((Word*)(tmp->value))->frequency);
+            ((Word*)(auxWord->value))->relevance = 
+                (
+                 ((float)((Word*)(auxWord->value))->frequency) / auxBook->wordCount
+                ) * log((float)totalDocuments / 
+                     ((Word*)(tmp->value))->frequency);
+
             auxWord = nextTreeMap(auxBook->wordFrequency);
         }
         aux = nextTreeMap(map);

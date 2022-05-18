@@ -21,7 +21,8 @@ List * readBooks();
 
 Book *createBook(char *id, TreeMap* fileAppearances);
 
-void loadBooks(List *books, TreeMap *sortedBooks, TreeMap* fileAppearances);
+void loadBooks(List *books, TreeMap *sortedBooks, 
+        TreeMap* fileAppearances, int *count);
 void showBooks(TreeMap *sortedMap);
 
 void countWords(Book *book, TreeMap* fileAppearances);

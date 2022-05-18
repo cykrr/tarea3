@@ -11,7 +11,7 @@
 #endif
 
 //Crea la lista de generos y guarda los mismos al detectarlos
-List *strToList(const char *string, const char* delim, int *count)
+List *strToList(const char *string, const char* delim)
 {
     List *list = listCreate();
 
@@ -21,7 +21,6 @@ List *strToList(const char *string, const char* delim, int *count)
     {
         listPushBack(list, token);
         token = strtok(NULL, delim);
-        (*count)++;
     }  
      
     return list;

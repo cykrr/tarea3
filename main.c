@@ -31,8 +31,9 @@ int main() {
         switch (in) {
             case 'i':
             {
-                books = readBooks(&bookCount);
-                loadBooks(books, sortedBooks, fileAppearances);
+                books = readBooks();
+                loadBooks(books, sortedBooks, fileAppearances,
+                        &bookCount);
                 break;
             }
             case 'm':

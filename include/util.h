@@ -7,7 +7,7 @@ char *_strdup(const char *str);
 #endif
 
 //Crea la lista de generos y guarda los mismos al detectarlos
-List *strToList(const char *string, const char* delim, int *count);
+List *strToList(const char *string, const char* delim);
 
 int lower_than_string(void* key1, void* key2);
 

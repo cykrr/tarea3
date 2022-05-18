@@ -129,8 +129,8 @@ countWords(Book *book, TreeMap* fileAppearances)
     while (fscanf(book->fd, " %1023s", x) == 1) 
     {
         book->charCount += strlen(x);
-        book->wordCount++;
-        quitar_caracteres(x, "’”“?,.\":;/!-_()\'=*%%");
+        (book->wordCount)++;
+        quitar_caracteres(x, "[]{}’”“?,.\":;/!-_()\'=*%%");
         stringToLower(x);
         printf("%s ", (char*)x);
         Pair *aux = searchTreeMap(book->wordFrequency, x);
@@ -145,13 +145,13 @@ countWords(Book *book, TreeMap* fileAppearances)
             Pair *tmp = searchTreeMap(fileAppearances, x);
             if (tmp != NULL) 
             {
-                ((Word*)(tmp->value))->frequency++;
+                *((int*)(tmp->value)) += 1;
             }
             else
             {
-                Word *word = malloc(sizeof(Word));
-                word->frequency = 1;
-                insertTreeMap(fileAppearances, word->word, word);
+                int *insertInt = malloc(sizeof(int));
+                *insertInt = 1;
+                insertTreeMap(fileAppearances, word->word, insertInt);
             }
         } 
         else 
@@ -196,26 +196,63 @@ showBook(Book *book, Word *word)
 void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
 {
     Pair *aux = firstTreeMap(map);
+    while (aux != NULL) {
+//        printf("Libro: %s\n", ((Book*)aux->value)->title);
+        Pair *aux2 = firstTreeMap(((Book*)aux->value)->wordFrequency);
+        while (aux2 != NULL) {
+//            printf("Palabra: %s ", (char*)aux2->key);
+
+            
+            Pair *tmp = searchTreeMap(fileAppearances, aux2->key);
+
+            float a = (float)(((Word*)(aux2->value))->frequency) / ((Book*)(aux->value))->wordCount;
+                 a *= 
+                     logf(
+                         ((float)totalDocuments)
+                       / 
+                         (*(int*)(tmp->value))
+                  );
+            ((Word*)(aux2->value))->relevance = a;
+//            printf("%f\n", a);
+//            printf("%d\n", ((Word*)(aux2->value))->frequency);
+//            printf("%ld\n", ((Book*)(aux->value))->wordCount);
+//            printf("%d\n", *((int*)(tmp->value)));
+
+            aux2 = nextTreeMap(((Book*)aux->value)->wordFrequency);
+        }
+
+        aux = nextTreeMap(map);
+    }
+
+//    printf("%d\n", totalDocuments);
+    /*
+    Pair *aux = firstTreeMap(map);
     Book *auxBook = NULL;
     while (aux != NULL)
     {
         auxBook = aux->value;
         Pair * auxWord = firstTreeMap(auxBook->wordFrequency);
         //Se recorren las palabras
-        printf("Segundo while\n");
+        printf("Segundo while: %s\n", (char*)auxWord->key);
         if (auxWord != NULL) 
         {
             Pair* tmp = searchTreeMap(fileAppearances, ((Word*)(auxWord->value))->word);
-            //int* cont = aa->value;
-            printf("Obtener Relevancia\n");
-            ((Word*)(auxWord->value))->relevance = 
-                (
-                 ((float)((Word*)(auxWord->value))->frequency) / auxBook->wordCount
-                ) * log((float)totalDocuments / 
-                     ((Word*)(tmp->value))->frequency);
+            if (tmp != NULL) {
 
-            auxWord = nextTreeMap(auxBook->wordFrequency);
+                //int* cont = aa->value;
+                printf("Obtener Relevancia\n");
+                ((Word*)(auxWord->value))->relevance = 
+                    (
+                     ((float)((Word*)(auxWord->value))->frequency) / auxBook->wordCount
+                    ) * log((float)totalDocuments / 
+                         ((Word*)(tmp->value))->frequency);
+
+                auxWord = nextTreeMap(auxBook->wordFrequency);
+            }
+
         }
+        printf("%d", ((Word*)auxWord->value)->relevance);
         aux = nextTreeMap(map);
     }
+    */
 }

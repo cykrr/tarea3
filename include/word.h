@@ -5,7 +5,7 @@
 typedef struct Word {
     char word[100];
     int frequency;
-    int relevance;
+    double relevance;
     List *positions;
 } Word;
 #endif

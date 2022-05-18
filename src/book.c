@@ -121,6 +121,7 @@ void
 countWords(Book *book, TreeMap* fileAppearances)
 {
     char * x = malloc(1024 * sizeof (char) );
+    rewind(book->fd);
     while (fscanf(book->fd, " %1023s", x) == 1) 
     {
         book->charCount += strlen(x);

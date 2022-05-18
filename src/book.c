@@ -125,7 +125,7 @@ countWords(Book *book, TreeMap* fileAppearances)
     {
         book->charCount += strlen(x);
         book->wordCount++;
-        quitar_caracteres(x, "?,.\":;/!-()\'=*%%");
+        quitar_caracteres(x, "’”“?,.\":;/!-_()\'=*%%");
         stringToLower(x);
         Pair *aux = searchTreeMap(book->wordFrequency, x);
         if (aux == NULL)

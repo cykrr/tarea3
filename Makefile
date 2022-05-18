@@ -10,7 +10,7 @@ all: prepare $(OBJS) $(NAME)
 
 
 $(NAME): $(OBJS) $(INCLUDE) main.c
-	$(CC) $(INCLUDES) main.c $(OBJS) -o $(NAME) -g -Wall -Werror -std=c99
+	$(CC) $(INCLUDES) main.c $(OBJS) -o $(NAME) -g -Wall -Werror -std=c99 -lm
 
 prepare:
 	mkdir -p src out include 

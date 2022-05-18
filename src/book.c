@@ -88,11 +88,15 @@ void showBooks(TreeMap *sortedMap)
         printf("Title: %s\n", book->title);
         printf("Populares: \n");
         Pair *aux = firstTreeMap(book->wordFrequency);
-        Word *auxWord = aux->value;
-        for (int i = 0; i < 10; i++) {
+        Word *auxWord;
+        if (aux != NULL)
             auxWord = aux->value;
-            printf("%s: %d\n", auxWord->word, auxWord->frequency);
-            aux = nextTreeMap(book->wordFrequency);
+        for (int i = 0; i < 10; i++) {
+            if (aux != NULL) {
+                auxWord = aux->value;
+                printf("%s: %d\n", auxWord->word, auxWord->frequency);
+                aux = nextTreeMap(book->wordFrequency);
+            }
             if (!aux) break;
         }
 

@@ -59,14 +59,16 @@ char* quitar_caracteres(char* string, char* c)
 {
 //    printf("Antes: %s\n", string);
  //   printf("Caracteres: %s\n", c);
-    for(int i = 0; i < strlen(string); i++ ) 
+    int j;
+    int i;
+    for(i = 0; i < strlen(string); i++ ) 
     {
 //        printf("i: %d, %c, %d\n", 
  //               i, string[i],
   //              hayQueEliminar(string[i], c));
         if (hayQueEliminar(string[i], c)) 
         {
-            for(int j = i; j < strlen(string); j++ ) {
+            for(j = i; j < strlen(string); j++ ) {
    //             printf("%c ", string[j]);
                 string[j] = string[j+1];
             }
@@ -75,6 +77,7 @@ char* quitar_caracteres(char* string, char* c)
         }
 
     }
+    string[i] = '\0';
     return string;
 }
 

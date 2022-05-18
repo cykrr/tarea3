@@ -2,6 +2,7 @@
 #include "list.h"
 #include "util.h"
 #include "word.h"
+#include "heap.h"
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -88,16 +89,15 @@ void showBooks(TreeMap *sortedMap)
         printf("Title: %s\n", book->title);
         printf("Populares: \n");
         Pair *aux = firstTreeMap(book->wordFrequency);
-        Word *auxWord;
-        if (aux != NULL)
-            auxWord = aux->value;
+        Mheap *heap = createMheap();
+        while (aux != NULL) {
+            heap_push(heap, aux->value, ((Word*)(aux->value))->frequency );
+            aux = nextTreeMap(book->wordFrequency);
+        }
         for (int i = 0; i < 10; i++) {
-            if (aux != NULL) {
-                auxWord = aux->value;
-                printf("%s: %d\n", auxWord->word, auxWord->frequency);
-                aux = nextTreeMap(book->wordFrequency);
-            }
-            if (!aux) break;
+            Word* word = heap_top(heap);
+            heap_pop(heap);
+            printf("%s: %d\n", word->word, word->frequency);
         }
 
         bookPair = nextTreeMap(sortedMap);
@@ -171,6 +171,7 @@ searchBooks(TreeMap *map)
     getchar();
     Pair *aux = firstTreeMap(map);
     Book *auxBook = NULL;
+    Mheap *heap = createMheap();
     //Se recorren los libros
     while (aux != NULL)
     {
@@ -179,7 +180,12 @@ searchBooks(TreeMap *map)
         //Se recorren las palabras
         if (auxWord != NULL) 
         {
-            showBook(auxBook, auxWord->value);
+            heap_push(heap, auxBook, ((Word*)auxWord)->relevance);
+        }
+
+        while (heap_top(heap)) {
+            showBook(heap_top(heap), auxWord->value);
+            heap_pop(heap);
         }
         aux = nextTreeMap(map);
     }

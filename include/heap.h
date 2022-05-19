@@ -4,6 +4,7 @@
 typedef struct heap Mheap;
 
 Mheap* createMheap();
+void swap (Mheap* pq, int pos);
 void* heap_top(Mheap* pq);
 void heap_push(Mheap* pq, void* data, int priority);
 void heap_pop(Mheap* pq);

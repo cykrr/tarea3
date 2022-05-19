@@ -30,98 +30,62 @@ void* heap_top(Mheap* pq)
 
 void swap (Mheap* pq, int pos)
 {
-  heapElem* aux = (heapElem*) calloc (1, sizeof(heapElem*));
+  heapElem aux;
   while (pos >= 0)
-   {
-      //Swaps
-      if (pq->heapArray[pos].priority > pq->heapArray[(pos-1)/2].priority)
-      {
-         aux->data = pq->heapArray[(pos-1)/2].data;
-         aux->priority = pq->heapArray[(pos-1)/2].priority;
-         pq->heapArray[(pos-1)/2] = pq->heapArray[pos]; 
-         pq->heapArray[pos].data = aux->data;
-         pq->heapArray[pos].priority = aux->priority;
-         pos = (pos-1)/2;
-      }
-      else
-      {
-        return;
-      }
-   } 
+  {
+    if (pq->heapArray[pos].priority > pq->heapArray[(pos-1)/2].priority)
+    {
+      aux = pq->heapArray[(pos-1)/2];
+      pq->heapArray[(pos-1)/2] = pq->heapArray[pos]; 
+      pq->heapArray[pos] = aux;
+      pos = (pos-1)/2;
+    }
+    else
+    {
+      return;
+    }
+  } 
 }
 
 void heap_push(Mheap* pq, void* data, int priority)
 {
-   if (pq->capac == pq->size)
-   {
-      heapElem* tmpArray = (heapElem*) calloc (pq->capac, sizeof(heapElem));
-      for (int i = 0 ; i < pq->size ; i = i + 1)
-      {
-        tmpArray[i] = pq->heapArray[i];    
-      }
-      pq->capac = (pq->capac * 2) + 1;
-      pq->heapArray = (heapElem*) calloc (pq->capac, sizeof(heapElem));
-      for (int i = 0 ; i < pq->size ; i = i + 1)
-      {
-        pq->heapArray[i] = tmpArray[i];    
-      }
-   }
+  if (pq->capac == pq->size)
+  {
+    pq->capac = (pq->capac * 2) + 1;
+    pq->heapArray = (heapElem*) realloc (pq->heapArray, (pq->capac)*sizeof(heapElem));
+  }
 
-   int pos = pq->size;
-   pq->heapArray[pos].data = data;
-   pq->heapArray[pos].priority = priority;
-  
-   swap(pq, pos);
-   pq->size = pq->size + 1;
+  int pos = pq->size;
+  pq->heapArray[pos].data = data;
+  pq->heapArray[pos].priority = priority;
+  swap(pq, pos);
+  pq->size = pq->size + 1;
 }
 
 void heap_pop(Mheap* pq)
 {
-   pq->heapArray[0] = pq->heapArray[pq->size];
-   pq->size = pq->size - 1;   
-   int pos = 0;
-   heapElem* aux = (heapElem*) calloc (1, sizeof(heapElem*)); 
-   while (pos <= pq->size)
-   {
-      if (pq->heapArray[(2*pos)+1].priority > pq->heapArray[(2*pos)+2].priority)
-      {
-        if (pq->heapArray[(2*pos)+1].priority > pq->heapArray[pos].priority)
-        {
-         aux->data = pq->heapArray[(2*pos)+1].data;
-         aux->priority = pq->heapArray[(2*pos)+1].priority;
-         pq->heapArray[(2*pos)+1] = pq->heapArray[pos]; 
-         pq->heapArray[pos].data = aux->data;
-         pq->heapArray[pos].priority = aux->priority;
-         pos = (2*pos)+1;
-        }
-        else
-        {
-          swap(pq, pos);
-          break;
-        }
-      }
-      else if (pq->heapArray[(2*pos)+1].priority < pq->heapArray[(2*pos)+2].priority)
-      {
-        if (pq->heapArray[0].priority < pq->heapArray[(2*pos)+2].priority)
-        {
-          aux->data = pq->heapArray[(2*pos)+2].data;
-          aux->priority = pq->heapArray[(2*pos)+2].priority;
-          pq->heapArray[(2*pos)+2] = pq->heapArray[pos]; 
-          pq->heapArray[pos].data = aux->data;
-          pq->heapArray[pos].priority = aux->priority;
-          pos = (2*pos)+2;          
-        }
-        else
-        {
-          swap(pq, pos);
-          break;
-        }
-      }
-      else
-      {
-        break;
-      }
-   } 
+  pq->size = pq->size - 1; 
+  pq->heapArray[0] = pq->heapArray[pq->size];
+  int pos = 0;
+  heapElem aux; 
+
+  while ((2*pos)+ 2 <= pq->size && (pq->heapArray[(2*pos)+1].priority > pq->heapArray[pos].priority || pq->heapArray[pos].priority < pq->heapArray[(2*pos)+2].priority))
+  {
+    if (pq->heapArray[(2*pos)+1].priority > pq->heapArray[(2*pos)+2].priority)
+    {
+      aux =  pq->heapArray[(2*pos)+1];
+      pq->heapArray[(2*pos)+1] = pq->heapArray[pos]; 
+      pq->heapArray[pos] = aux;
+      pos = (2*pos)+1;
+    }
+    else
+    {
+      aux = pq->heapArray[(2*pos)+2];
+      pq->heapArray[(2*pos)+2] = pq->heapArray[pos]; 
+      pq->heapArray[pos] = aux;
+      pos = (2*pos)+2;          
+    }
+  }
 }
 
 Mheap* createMheap()

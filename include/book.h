@@ -33,4 +33,8 @@ void showBook(Book *book, Word *word);
 
 void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances);
 
+void relevantWords(TreeMap* sortedBooks);
+
+void mostFrequency(TreeMap* sortedBooks);
+
 #endif

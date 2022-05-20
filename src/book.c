@@ -81,25 +81,20 @@ void showBooks(TreeMap *sortedMap)
 {
     Pair *bookPair = firstTreeMap(sortedMap);
     Book *book;
+    if (bookPair == NULL)
+    {
+        printf("No se ha ingresado ningun documento\n");
+        return;
+    }
+
     while (bookPair != NULL) 
     {
         book = bookPair->value;
 
         printf("ID: %s\n", book->id);
         printf("Title: %s\n", book->title);
-        printf("Populares: \n");
-        Pair *aux = firstTreeMap(book->wordFrequency);
-        Mheap *heap = createMheap();
-        while (aux != NULL) {
-            heap_push(heap, aux->value, ((Word*)(aux->value))->frequency );
-            aux = nextTreeMap(book->wordFrequency);
-        }
-        for (int i = 0; i < 10; i++) {
-            Word* word = heap_top(heap);
-            heap_pop(heap);
-            printf("%s: %d\n", word->word, word->frequency);
-        }
-
+        printf("Cantidad de palabras: %d\n", book->wordCount);
+        printf("Cantiad de caracteres: %d\n", book->charCount);
         bookPair = nextTreeMap(sortedMap);
     }
 }
@@ -182,12 +177,20 @@ searchBooks(TreeMap *map)
         {
             heap_push(heap, auxBook, ((Word*)auxWord)->relevance);
         }
-
-        while (heap_top(heap)) {
-            showBook(heap_top(heap), auxWord->value);
-            heap_pop(heap);
-        }
         aux = nextTreeMap(map);
+    }
+
+    if (heap_top(heap) == NULL)
+    {
+        printf("Ningun libro contenia la palabra\n");
+    }
+
+    while (heap_top(heap)) 
+    {
+        auxBook = heap_top(heap);
+        Pair* auxWord = searchTreeMap(auxBook->wordFrequency, in);
+        showBook(auxBook, auxWord->value);
+        heap_pop(heap);
     }
 }
 
@@ -261,4 +264,75 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
         aux = nextTreeMap(map);
     }
     */
+}
+
+void relevantWords(TreeMap* sortedBooks)
+{
+    char in[50];
+    printf("Ingrese la palabra a buscar: ");
+    scanf("%s", in);
+    getchar();
+    Pair *aux = searchTreeMap(sortedBooks, in);
+    if (aux == NULL)
+    {
+        printf("El libro que ingreso no existe\n");
+        return;
+    }
+
+    Mheap *heap = createMheap();
+    Book *auxBook = aux->value;
+    Pair* auxWord = firstTreeMap(auxBook->wordFrequency);
+    while (auxWord != NULL) 
+    {
+        heap_push(heap, auxBook, ((Word*)auxWord)->relevance);
+        auxWord = nextTreeMap(auxBook->wordFrequency);
+    }
+
+    while (heap_top(heap)) 
+    {
+        auxBook = heap_top(heap);
+        Pair* auxWord = searchTreeMap(auxBook->wordFrequency, in);
+        showBook(auxBook, auxWord->value);
+        heap_pop(heap);
+    }
+}
+
+void mostFrequency(TreeMap* sortedBooks)
+{
+    char in[30];
+    printf("Ingrese el ID del libro\n");
+    scanf("%c", in);
+    getchar();
+    Pair *bookPair = firstTreeMap(sortedBooks);
+    Book *book;
+    if (bookPair == NULL)
+    {
+        printf("No se ha ingresado ningun documento\n");
+        return;
+    }
+
+    while (bookPair != NULL)
+    {
+        book = bookPair->value;
+        if (strcmp(in, book->id) == 0)
+        {
+            printf("ID: %s\n", book->id);
+            printf("Title: %s\n", book->title);
+            printf("Populares: \n");
+            Pair *aux = firstTreeMap(book->wordFrequency);
+            Mheap *heap = createMheap();
+            while (aux != NULL) 
+            {
+                heap_push(heap, aux->value, ((Word*)(aux->value))->frequency );
+                aux = nextTreeMap(book->wordFrequency);
+            }
+            for (int i = 0; i < 10; i++) 
+            {
+                Word* word = heap_top(heap);
+                heap_pop(heap);
+                printf("%s: %d\n", word->word, word->frequency);
+            }
+        }
+        bookPair = nextTreeMap(sortedBooks);
+    }
 }

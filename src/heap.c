@@ -7,7 +7,7 @@
 
 typedef struct nodo{
    void* data;
-   int priority;
+   double priority;
 }heapElem;
 
 struct heap{
@@ -47,7 +47,7 @@ void swap (Mheap* pq, int pos)
   } 
 }
 
-void heap_push(Mheap* pq, void* data, int priority)
+void heap_push(Mheap* pq, void* data, double priority)
 {
   if (pq->capac == pq->size)
   {

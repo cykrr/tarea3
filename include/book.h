@@ -37,4 +37,6 @@ void relevantWords(TreeMap* sortedBooks);
 
 void mostFrequency(TreeMap* sortedBooks);
 
+void getFrequency(TreeMap* sortedBooks);
+
 #endif

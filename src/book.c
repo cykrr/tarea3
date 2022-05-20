@@ -44,7 +44,8 @@ createBook(char *id, TreeMap* fileAppearances)
     Book *book = malloc(sizeof(Book));
     book->charCount = 0;
     book->wordCount = 0;
-    if(!book) {
+    if(!book) 
+    {
         printf("Error guardando memoria para Book\n");
     }
 
@@ -133,7 +134,7 @@ countWords(Book *book, TreeMap* fileAppearances)
         {
             Word *word = malloc(sizeof(Word));
             strcpy(word->word, x);
-            word->frequency = 1;
+            word->appearances = 1;
             word->positions = NULL; // TODO
             insertTreeMap(book->wordFrequency, word->word, word);
             //Contar apariciones de una palabra en el archivo
@@ -151,7 +152,7 @@ countWords(Book *book, TreeMap* fileAppearances)
         } 
         else 
         {
-            ((Word*)(aux->value))->frequency++;
+            ((Word*)(aux->value))->appearances++;
         }
    }
     putchar('\n');
@@ -199,7 +200,7 @@ showBook(Book *book, Word *word)
 {
     printf("ID: %s\n", book->id);
     printf("Titulo: %s\n", book->title);
-    printf("Apariciones: %d\n", word->frequency);
+    printf("Apariciones: %d\n", word->appearances);
 }
 
 void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
@@ -214,7 +215,7 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
             
             Pair *tmp = searchTreeMap(fileAppearances, aux2->key);
 
-            float a = (float)(((Word*)(aux2->value))->frequency) / ((Book*)(aux->value))->wordCount;
+            float a = (float)(((Word*)(aux2->value))->appearances) / ((Book*)(aux->value))->wordCount;
                  a *= 
                      logf(
                          ((float)totalDocuments)
@@ -232,38 +233,6 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
 
         aux = nextTreeMap(map);
     }
-
-//    printf("%d\n", totalDocuments);
-    /*
-    Pair *aux = firstTreeMap(map);
-    Book *auxBook = NULL;
-    while (aux != NULL)
-    {
-        auxBook = aux->value;
-        Pair * auxWord = firstTreeMap(auxBook->wordFrequency);
-        //Se recorren las palabras
-        printf("Segundo while: %s\n", (char*)auxWord->key);
-        if (auxWord != NULL) 
-        {
-            Pair* tmp = searchTreeMap(fileAppearances, ((Word*)(auxWord->value))->word);
-            if (tmp != NULL) {
-
-                //int* cont = aa->value;
-                printf("Obtener Relevancia\n");
-                ((Word*)(auxWord->value))->relevance = 
-                    (
-                     ((float)((Word*)(auxWord->value))->frequency) / auxBook->wordCount
-                    ) * log((float)totalDocuments / 
-                         ((Word*)(tmp->value))->frequency);
-
-                auxWord = nextTreeMap(auxBook->wordFrequency);
-            }
-
-        }
-        printf("%d", ((Word*)auxWord->value)->relevance);
-        aux = nextTreeMap(map);
-    }
-    */
 }
 
 void relevantWords(TreeMap* sortedBooks)
@@ -301,7 +270,7 @@ void mostFrequency(TreeMap* sortedBooks)
 {
     char in[30];
     printf("Ingrese el ID del libro\n");
-    scanf("%c", in);
+    scanf("%s", in);
     getchar();
     Pair *bookPair = firstTreeMap(sortedBooks);
     Book *book;
@@ -330,8 +299,28 @@ void mostFrequency(TreeMap* sortedBooks)
             {
                 Word* word = heap_top(heap);
                 heap_pop(heap);
-                printf("%s: %d\n", word->word, word->frequency);
+                printf("%s: %lf\n", word->word, word->frequency);
             }
+            return;
+        }
+        bookPair = nextTreeMap(sortedBooks);
+    }
+}
+
+void getFrequency(TreeMap* sortedBooks)
+{
+    Pair *bookPair = firstTreeMap(sortedBooks);
+    if (bookPair == NULL) return;
+    Book *book;
+
+    while (bookPair != NULL)
+    {
+        book = bookPair->value;
+        Pair *auxWrd = firstTreeMap(book->wordFrequency);
+        while (auxWrd != NULL)
+        {
+            ((Word*)(auxWrd->value))->frequency = (double)((Word*)(auxWrd->value))->appearances / (double)book->wordCount;
+            auxWrd = nextTreeMap(book->wordFrequency);
         }
         bookPair = nextTreeMap(sortedBooks);
     }

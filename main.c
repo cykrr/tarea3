@@ -40,6 +40,7 @@ int main() {
                 loadBooks(books, sortedBooks, fileAppearances,
                         &bookCount);
                 getRelevance(sortedBooks, bookCount, fileAppearances);
+                getFrequency(sortedBooks);
                 break;
             }
             case 2:

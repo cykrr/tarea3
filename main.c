@@ -16,39 +16,59 @@ int main() {
 
     //showList (books);
 
-    char in = 0;
+    int in = 0;
     while (1) 
     {
         showMenu();
-        scanf("%c", &in);
-        getchar(); // Eliminar \n del stdin
-        if (in == 'q')
+        do
         {
-            printf("Gracias por utilizar el programa!");
-            return 0;
-        }
+            printf("Ingrese una opcion valida\n");
+            scanf("%d", &in);
+            getchar(); // Eliminar \n del stdin
+        }while(in < 0 || in > 7);
 
-        switch (in) {
-            case 'i':
+        switch (in) 
+        {
+            case 0:
+            {
+                printf("Gracias por utilizar el programa!");
+                return 0;
+            }
+            case 1:
             {
                 books = readBooks();
                 loadBooks(books, sortedBooks, fileAppearances,
                         &bookCount);
+                getRelevance(sortedBooks, bookCount, fileAppearances);
                 break;
             }
-            case 'm':
+            case 2:
             {
                 showBooks(sortedBooks);
                 break;
             }
-            case 'b':
+            case 3:
             {
                 searchBooks(sortedBooks);
                 break;
             }
-            case 'r':
+            case 4:
             {
-                getRelevance(sortedBooks, bookCount, fileAppearances);
+                mostFrequency(sortedBooks);
+                break;
+            }
+            case 5:
+            {
+                relevantWords(sortedBooks);
+                break;
+            }
+            case 6:
+            {
+                break;
+            }
+            case 7:
+            {
+                break;
             }
         }
     }

@@ -215,15 +215,15 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
             
             Pair *tmp = searchTreeMap(fileAppearances, aux2->key);
 
-            float a = (float)(((Word*)(aux2->value))->appearances) / ((Book*)(aux->value))->wordCount;
+            double a = (double)(((Word*)(aux2->value))->appearances) / (double)((Book*)(aux->value))->wordCount;
                  a *= 
                      logf(
-                         ((float)totalDocuments)
+                         ((double)totalDocuments)
                        / 
-                         (*(int*)(tmp->value))
+                         (double)(*(int*)(tmp->value))
                   );
             ((Word*)(aux2->value))->relevance = a;
-//            printf("%f\n", a);
+//            printf("%lf\n", ((Word*)(aux2->value))->relevance);
 //            printf("%d\n", ((Word*)(aux2->value))->frequency);
 //            printf("%ld\n", ((Book*)(aux->value))->wordCount);
 //            printf("%d\n", *((int*)(tmp->value)));
@@ -237,8 +237,8 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
 
 void relevantWords(TreeMap* sortedBooks)
 {
-    char in[50];
-    printf("Ingrese la palabra a buscar: ");
+    char in[100];
+    printf("Ingrese el libro a buscar: ");
     scanf("%s", in);
     getchar();
     Pair *aux = searchTreeMap(sortedBooks, in);
@@ -266,6 +266,7 @@ void relevantWords(TreeMap* sortedBooks)
     }
 }
 
+//Función que muestra las palabras con mayor frecuencia
 void mostFrequency(TreeMap* sortedBooks)
 {
     char in[30];
@@ -283,18 +284,24 @@ void mostFrequency(TreeMap* sortedBooks)
     while (bookPair != NULL)
     {
         book = bookPair->value;
+
+        //Recorre todos los libros existentes, si existe muestra sus datos y termina la función.
         if (strcmp(in, book->id) == 0)
         {
+            //Se muestran los datos del libro
             printf("ID: %s\n", book->id);
             printf("Title: %s\n", book->title);
             printf("Populares: \n");
             Pair *aux = firstTreeMap(book->wordFrequency);
             Mheap *heap = createMheap();
+
+            //Se añaden todas las palabras el Heap para tenerlas ordenadas
             while (aux != NULL) 
             {
                 heap_push(heap, aux->value, ((Word*)(aux->value))->frequency );
                 aux = nextTreeMap(book->wordFrequency);
             }
+            //Se muestran las 10 palabras con mayor frecuencia del texto.
             for (int i = 0; i < 10; i++) 
             {
                 Word* word = heap_top(heap);
@@ -305,18 +312,23 @@ void mostFrequency(TreeMap* sortedBooks)
         }
         bookPair = nextTreeMap(sortedBooks);
     }
+    //Caso en donde no se encuentra el ID ingresado.
+    printf("El documento que ingreso no existe\n");
 }
 
+//Se obtiene la frecuencia de todas las palabras.
 void getFrequency(TreeMap* sortedBooks)
 {
     Pair *bookPair = firstTreeMap(sortedBooks);
     if (bookPair == NULL) return;
     Book *book;
 
+    //Se recorren los libros leídos
     while (bookPair != NULL)
     {
         book = bookPair->value;
         Pair *auxWrd = firstTreeMap(book->wordFrequency);
+        //Se recorren todas las palabras de cada libro y se calcula su frecuencia
         while (auxWrd != NULL)
         {
             ((Word*)(auxWrd->value))->frequency = (double)((Word*)(auxWrd->value))->appearances / (double)book->wordCount;

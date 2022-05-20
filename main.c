@@ -50,7 +50,7 @@ int main() {
             }
             case 3:
             {
-                searchBooks(sortedBooks);
+                
                 break;
             }
             case 4:
@@ -65,6 +65,7 @@ int main() {
             }
             case 6:
             {
+                searchBooks(sortedBooks);
                 break;
             }
             case 7:

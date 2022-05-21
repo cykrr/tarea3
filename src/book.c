@@ -313,12 +313,13 @@ void relevantWords(TreeMap* sortedBooks)
         auxWord = nextTreeMap(auxBook->wordFrequency);
     }
 
-    while (heap_top(heap)) 
+    int i = 0;
+    while (i < 10 )
     {
-        auxBook = heap_top(heap);
-        Pair* auxWord = searchTreeMap(auxBook->wordFrequency, in);
-        showBook(auxBook, auxWord->value);
+        Word *word = heap_top(heap);
+        printf("%s: %lf\n", word->word, word->relevance);
         heap_pop(heap);
+        i++;
     }
 }
 

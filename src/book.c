@@ -129,6 +129,19 @@ void loadBooks(List* books, TreeMap* sortedBooks, TreeMap* fileAppearances, int 
 void 
 countWords(Book *book, TreeMap* fileAppearances)
 {
+    TreeMap *exclude = populateExcludeMap();
+
+    /*
+    printf("INICIO MAPA\n");
+    Pair *aux = firstTreeMap(exclude);
+    while (aux != NULL) {
+        char *i = aux->value;
+        printf("%s\n", i);
+        aux = nextTreeMap(exclude);
+    }
+    printf("FINAL MAPA\n");
+    */
+
     char * x = malloc(1024 * sizeof (char) );
     rewind(book->fd);
     while (fscanf(book->fd, " %1023s", x) == 1) 

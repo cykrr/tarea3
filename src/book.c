@@ -7,6 +7,7 @@
 #include <string.h>
 #include <math.h>
 
+
 int inverse_lower_than_string(void* key1, void* key2){
     char* k1=(char*) key1;
     char* k2=(char*) key2;
@@ -373,4 +374,28 @@ void bookWithWords(TreeMap* sortedBooks)
         }
         bookPair = nextTreeMap(sortedBooks);
     }
+}
+
+TreeMap *
+populateExcludeMap() 
+{
+    TreeMap *excludeMap = createTreeMap(lower_than_string);
+
+    char excludeWords[][100] = {"the", "and", "of", "to", "that", 
+        "in", "he", "shall", "unto", "for", "a", "was", "it",
+        "she", "said", "you", "be", "an", "have", "i", "not",
+        "on", "with", "as", "do", "at", "this", "but", "his",
+        "by", "from", "they", "we", "say", "her", "or", "will",
+        "my", "one", "all", "would", "there", "their", "what", 
+        "so", "up", "out", "if", "about", "who", "get", "which",
+        "go", "me", "when", "make", "can", "like", "no", "just",
+        "him", "know", "take", "into", "your", "good", "some", 
+        "could", "them", "than", "then", "now", "come", "its",
+        "also", "how", "our", "well", "even", "want", "because",
+        "any", "most", "us", "are", "is"};
+    int wordCount = 86;
+    for (int i = 0; i < wordCount; i++) {
+        insertTreeMap(excludeMap, excludeWords[i], excludeWords[i]);
+    }
+    return excludeMap;
 }

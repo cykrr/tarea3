@@ -4,6 +4,9 @@
 #include "list.h"
 #include <stdio.h>
 #include "word.h"
+#include "util.h"
+#include "exclude.h"
+
 
 typedef struct Book {
     // Mapa de palabras
@@ -41,4 +44,8 @@ void getFrequency(TreeMap* sortedBooks);
 
 void bookWithWords(TreeMap* sortedBooks);
 
+// Llenar el mapa con las palabras correspondientes.
+//
+
+TreeMap *populateExcludeMap();
 #endif

@@ -280,6 +280,21 @@ void relevantWords(TreeMap* sortedBooks)
     printf("Ingrese el libro a buscar: ");
     scanf("%[^\n]*s", in);
     getchar();
+
+
+    /*
+    Pair *a = firstTreeMap(sortedBooks);
+    int j = 0;
+    while (a != NULL) {
+        char *i = a->key;
+        printf("%d\n %s..\n",j, i);
+        j++;
+
+        a = nextTreeMap(sortedBooks);
+    }
+   
+    */
+
     Pair *aux = searchTreeMap(sortedBooks, in);
     if (aux == NULL)
     {

@@ -50,7 +50,7 @@ createBook(char *id, TreeMap* fileAppearances)
         printf("Error guardando memoria para Book\n");
     }
 
-    book->wordFrequency = createTreeMap(inverse_lower_than_string);
+    book->wordFrequency = createTreeMap(lower_than_string);
     strcpy(book->id, id);
 
     char fileName[100];

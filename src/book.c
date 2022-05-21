@@ -309,7 +309,7 @@ void relevantWords(TreeMap* sortedBooks)
     Pair* auxWord = firstTreeMap(auxBook->wordFrequency);
     while (auxWord != NULL) 
     {
-        heap_push(heap, auxBook, ((Word*)auxWord)->relevance);
+        heap_push(heap, auxWord->value, ((Word*)auxWord)->relevance);
         auxWord = nextTreeMap(auxBook->wordFrequency);
     }
 

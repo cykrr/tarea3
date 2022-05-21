@@ -305,7 +305,7 @@ void relevantWords(TreeMap* sortedBooks)
     }
     Book *auxBook = aux->value;
     Mheap *heap = createMheap();
-    //Book *auxBook = aux->value;
+
     Pair* auxWord = firstTreeMap(auxBook->wordFrequency);
     while (auxWord != NULL) 
     {

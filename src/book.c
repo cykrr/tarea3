@@ -189,6 +189,9 @@ countWords(Book *book, TreeMap* fileAppearances)
         else 
         {
             ((Word*)(aux->value))->appearances++;
+            long *toPush = malloc(sizeof(long));
+            *toPush = ftell(book->fd);
+            listPushBack(((Word*)(aux->value))->positions, toPush);
         }
    }
     putchar('\n');

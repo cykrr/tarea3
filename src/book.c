@@ -194,7 +194,6 @@ countWords(Book *book, TreeMap* fileAppearances)
             listPushBack(((Word*)(aux->value))->positions, toPush);
         }
    }
-    putchar('\n');
 }
 
 void 

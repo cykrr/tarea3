@@ -300,6 +300,8 @@ void relevantWords(TreeMap* sortedBooks)
     {
         printf("El libro que ingreso no existe\n");
         return;
+    } else {
+        printf("Palabras más relevantes de \'%s\':\n", (char*)aux->key);
     }
     Book *auxBook = aux->value;
     Mheap *heap = createMheap();

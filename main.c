@@ -71,6 +71,7 @@ int main() {
             }
             case 7:
             {
+                showWordContext(sortedBooks);
                 break;
             }
         }

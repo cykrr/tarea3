@@ -166,7 +166,7 @@ countWords(Book *book, TreeMap* fileAppearances)
             Word *word = malloc(sizeof(Word));
             strcpy(word->word, x);
             word->appearances = 1;
-            word->positions = NULL; // TODO
+            word->positions = listCreate();
             insertTreeMap(book->wordFrequency, word->word, word);
             //Contar apariciones de una palabra en el archivo
             Pair *tmp = searchTreeMap(fileAppearances, x);

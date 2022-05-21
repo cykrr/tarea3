@@ -50,7 +50,7 @@ int main() {
             }
             case 3:
             {
-                
+                bookWithWords(sortedBooks);
                 break;
             }
             case 4:
@@ -60,6 +60,7 @@ int main() {
             }
             case 5:
             {
+                //No esta obteniendo el titulo de manera correcta
                 relevantWords(sortedBooks);
                 break;
             }

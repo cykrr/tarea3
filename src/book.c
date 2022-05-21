@@ -239,7 +239,7 @@ void relevantWords(TreeMap* sortedBooks)
 {
     char in[100];
     printf("Ingrese el libro a buscar: ");
-    scanf("%s", in);
+    scanf("%[^\n]s", in);
     getchar();
     Pair *aux = searchTreeMap(sortedBooks, in);
     if (aux == NULL)
@@ -247,9 +247,9 @@ void relevantWords(TreeMap* sortedBooks)
         printf("El libro que ingreso no existe\n");
         return;
     }
-
-    Mheap *heap = createMheap();
     Book *auxBook = aux->value;
+    Mheap *heap = createMheap();
+    //Book *auxBook = aux->value;
     Pair* auxWord = firstTreeMap(auxBook->wordFrequency);
     while (auxWord != NULL) 
     {
@@ -333,6 +333,43 @@ void getFrequency(TreeMap* sortedBooks)
         {
             ((Word*)(auxWrd->value))->frequency = (double)((Word*)(auxWrd->value))->appearances / (double)book->wordCount;
             auxWrd = nextTreeMap(book->wordFrequency);
+        }
+        bookPair = nextTreeMap(sortedBooks);
+    }
+}
+
+//
+void bookWithWords(TreeMap* sortedBooks)
+{
+    char in[100];
+    printf("Ingrese las palabras a buscar: ");
+    scanf("%[^\n]s", in);
+    getchar();
+    List *ret = strToList(in, " ");
+
+    Pair *bookPair = firstTreeMap(sortedBooks);
+    if (bookPair == NULL)
+    {
+        printf("No se ha ingresado ningun documento\n");
+        return;
+    }
+    Book *book;
+    int flag;
+    Pair *auxWrd;
+    while (bookPair != NULL)
+    {
+        flag = 1;
+        book = bookPair->value;
+        char* words = (char*)listFirst(ret);
+        while (words != NULL)
+        {
+            auxWrd = searchTreeMap(book->wordFrequency, words);
+            if (auxWrd == NULL) flag = 0;
+            words = (char*)listNext(ret);
+        }
+        if (flag == 1)
+        {
+            printf("%s\n", book->title);
         }
         bookPair = nextTreeMap(sortedBooks);
     }

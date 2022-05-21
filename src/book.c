@@ -278,7 +278,7 @@ void relevantWords(TreeMap* sortedBooks)
 {
     char in[100];
     printf("Ingrese el libro a buscar: ");
-    scanf("%[^\n]s", in);
+    scanf("%[^\n]*s", in);
     getchar();
     Pair *aux = searchTreeMap(sortedBooks, in);
     if (aux == NULL)

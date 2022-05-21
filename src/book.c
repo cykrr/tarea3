@@ -94,8 +94,8 @@ void showBooks(TreeMap *sortedMap)
 
         printf("ID: %s\n", book->id);
         printf("Title: %s\n", book->title);
-        printf("Cantidad de palabras: %d\n", book->wordCount);
-        printf("Cantiad de caracteres: %d\n", book->charCount);
+        printf("Cantidad de palabras: %ld\n", book->wordCount);
+        printf("Cantiad de caracteres: %ld\n", book->charCount);
         bookPair = nextTreeMap(sortedMap);
     }
 }

@@ -5,7 +5,7 @@
         "in", "he", "shall", "unto", "for", "a", "was", "it",
         "she", "said", "you", "be", "an", "have", "i", "not",
         "on", "with", "as", "do", "at", "this", "but", "his",
-        "by", "from", "they", "we", "say", "her", "or", "will"
+        "by", "from", "they", "we", "say", "her", "or", "will",
         "my", "one", "all", "would", "there", "their", "what", 
         "so", "up", "out", "if", "about", "who", "get", "which",
         "go", "me", "when", "make", "can", "like", "no", "just",

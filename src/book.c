@@ -74,6 +74,14 @@ createBook(char *id, TreeMap* fileAppearances)
     char *comma = strchr(book->title, ',');
     if(comma != NULL) *comma = '\0';
 
+    // Eliminar salto de linea
+    char *newline = strchr(book->title, '\n');
+    if(newline != NULL) *newline = '\0';
+
+    // Eliminar salto de linea
+    char *cr = strchr(book->title, '\r');
+    if(cr != NULL) *cr = '\0';
+
     countWords(book, fileAppearances);
 
     return book;

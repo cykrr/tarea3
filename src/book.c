@@ -448,10 +448,11 @@ populateExcludeMap()
         "him", "know", "take", "into", "your", "good", "some", 
         "could", "them", "than", "then", "now", "come", "its",
         "also", "how", "our", "well", "even", "want", "because",
-        "any", "most", "us", "are", "is"};
-    int wordCount = 86;
-    for (int i = 0; i < wordCount; i++) {
-        insertTreeMap(excludeMap, excludeWords[i], excludeWords[i]);
+        "any", "most", "us", "are", "is", "had", "were", "went", 
+        "ye", "thee", "thou", "thy", "hath"};
+    for (int i = 0; i < sizeof(excludeWords) / (100 * sizeof(char)); i++) {
+        char *dup = _strdup(excludeWords[i]);
+        insertTreeMap(excludeMap, dup, dup);
     }
     return excludeMap;
 }

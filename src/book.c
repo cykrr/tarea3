@@ -261,10 +261,11 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
                          (double)(*(int*)(tmp->value))
                   );
             ((Word*)(aux2->value))->relevance = a;
-//            printf("%lf\n", ((Word*)(aux2->value))->relevance);
-//            printf("%d\n", ((Word*)(aux2->value))->frequency);
-//            printf("%ld\n", ((Book*)(aux->value))->wordCount);
-//            printf("%d\n", *((int*)(tmp->value)));
+     //       printf("%d\n", totalDocuments);
+     //       printf("%d\n", ((Word*)(aux2->value))->appearances);
+     //       printf("%ld\n", ((Book*)(aux->value))->wordCount);
+     //       printf("%d\n", *((int*)(tmp->value)));
+            printf("%lf\n", a);
 
             aux2 = nextTreeMap(((Book*)aux->value)->wordFrequency);
         }

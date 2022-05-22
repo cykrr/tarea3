@@ -16,4 +16,6 @@ char* stringToLower(char* words);
 int hayQueEliminar(char c, char* string_chars);
 
 char* quitar_caracteres(char* string, char* c);
+
+int is_equal(void* key1, void *key2);
 #endif

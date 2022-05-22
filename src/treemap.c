@@ -12,13 +12,13 @@ struct TreeNode {
     TreeNode * parent;
 };
 
-struct TreeMap {
+struct OrderedTreeMap {
     TreeNode * root;
     TreeNode * current;
     int (*lower_than) (void* key1, void* key2);
 };
 
-int is_equal(TreeMap* tree, void* key1, void* key2){
+int is_equal(OrderedTreeMap* tree, void* key1, void* key2){
     if(tree->lower_than(key1,key2)==0 &&  
         tree->lower_than(key2,key1)==0) return 1;
     else return 0;
@@ -44,16 +44,16 @@ TreeNode * createTreeNode(void* key, void * value) {
     return new;
 }
 
-TreeMap * createTreeMap(int (*lower_than) (void* key1, void* key2)) {
+OrderedTreeMap * createOrderedTreeMap(int (*lower_than) (void* key1, void* key2)) {
     
-    TreeMap * new = (TreeMap *)malloc(sizeof(TreeMap));
+    OrderedTreeMap * new = (OrderedTreeMap *)malloc(sizeof(OrderedTreeMap));
     if (new == NULL) return NULL;
     new->root = new->current = NULL;
     new->lower_than = lower_than;
     return new;
 }
 
-void insertTreeMap(TreeMap * tree, void* key, void * value) {
+void insertOrderedTreeMap(OrderedTreeMap * tree, void* key, void * value) {
     if (tree == NULL) return;
     
     TreeNode * aux = tree->root;
@@ -85,7 +85,7 @@ void insertTreeMap(TreeMap * tree, void* key, void * value) {
     tree->current = new;
 }
 
-void removeNode(TreeMap * tree, TreeNode* node) {
+void removeNode(OrderedTreeMap * tree, TreeNode* node) {
     //nodo hoja
     if(node->right==NULL && node->left==NULL){
         TreeNode* parent=node->parent;
@@ -114,10 +114,10 @@ void removeNode(TreeMap * tree, TreeNode* node) {
 
 }
 
-void eraseTreeMap(TreeMap * tree, void* key){
+void eraseOrderedTreeMap(OrderedTreeMap * tree, void* key){
     if (tree == NULL || tree->root == NULL) return;
 
-    if (searchTreeMap(tree, key) == NULL) return;
+    if (searchOrderedTreeMap(tree, key) == NULL) return;
     TreeNode* node = tree->current;
     removeNode(tree, node);
 
@@ -126,7 +126,7 @@ void eraseTreeMap(TreeMap * tree, void* key){
 
 
 
-Pair * searchTreeMap(TreeMap * tree, void* key) {
+Pair * searchOrderedTreeMap(OrderedTreeMap * tree, void* key) {
     if (tree == NULL || tree->root == NULL) return NULL;
     
     TreeNode * aux = tree->root;
@@ -147,7 +147,7 @@ Pair * searchTreeMap(TreeMap * tree, void* key) {
 }
 
 
-Pair * upperBound(TreeMap * tree, void* key) {
+Pair * upperBound(OrderedTreeMap * tree, void* key) {
     if (tree == NULL || tree->root == NULL) return NULL;
     
     TreeNode * aux = tree->root;
@@ -172,7 +172,7 @@ Pair * upperBound(TreeMap * tree, void* key) {
     return ub_node->pair;
 }
 
-Pair * firstTreeMap(TreeMap * tree) {
+Pair * firstOrderedTreeMap(OrderedTreeMap * tree) {
     if (tree == NULL || tree->root == NULL) return NULL;
     
     TreeNode * aux = tree->root;
@@ -184,7 +184,7 @@ Pair * firstTreeMap(TreeMap * tree) {
     return tree->current->pair;
 }
 
-Pair * nextTreeMap(TreeMap * tree) {
+Pair * nextOrderedTreeMap(OrderedTreeMap * tree) {
     if (tree == NULL || tree->root == NULL || tree->current == NULL) return NULL;
     
     if (tree->current->right != NULL) {

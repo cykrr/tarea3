@@ -9,7 +9,7 @@
 
 typedef struct Book {
     // Mapa de palabras
-    TreeMap* wordFrequency;
+    OrderedTreeMap* wordFrequency;
     char title[100];
     char id[30];
     FILE* fd;
@@ -21,32 +21,32 @@ void showList (List* list);
 
 List * readBooks();
 
-Book *createBook(char *id, TreeMap* fileAppearances);
+Book *createBook(char *id, OrderedTreeMap* fileAppearances);
 
-void loadBooks(List *books, TreeMap *sortedBooks, 
-        TreeMap* fileAppearances, int *count);
-void showBooks(TreeMap *sortedMap);
+void loadBooks(List *books, OrderedTreeMap *sortedBooks, 
+        OrderedTreeMap* fileAppearances, int *count);
+void showBooks(OrderedTreeMap *sortedMap);
 
-void countWords(Book *book, TreeMap* fileAppearances);
+void countWords(Book *book, OrderedTreeMap* fileAppearances);
 
-void searchBooks(TreeMap *map, int docCount, TreeMap *fileAppearances);
+void searchBooks(OrderedTreeMap *map, int docCount, OrderedTreeMap *fileAppearances);
 
 void showBook(Book *book, Word *word);
 
-void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances);
+void getRelevance (OrderedTreeMap *map, int totalDocuments, OrderedTreeMap* fileAppearances);
 
-void relevantWords(TreeMap* sortedBooks, TreeMap *fileAppeareances, long docCount);
+void relevantWords(OrderedTreeMap* sortedBooks, OrderedTreeMap *fileAppeareances, long docCount);
 
-void mostFrequency(TreeMap* sortedBooks);
+void mostFrequency(OrderedTreeMap* sortedBooks);
 
-void getFrequency(TreeMap* sortedBooks);
+void getFrequency(OrderedTreeMap* sortedBooks);
 
-void bookWithWords(TreeMap* sortedBooks);
+void bookWithWords(OrderedTreeMap* sortedBooks);
 
 // Llenar el mapa con las palabras correspondientes.
 //
 
-TreeMap *populateExcludeMap();
+OrderedTreeMap *populateExcludeMap();
 
 double relevance(
         /* la cantidad de documentos. Se actualiza cada vez que

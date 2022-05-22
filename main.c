@@ -10,8 +10,8 @@
 
 int main() {
     List *books = NULL; 
-    TreeMap* sortedBooks = createTreeMap(lower_than_string);
-    TreeMap* fileAppearances = createTreeMap(lower_than_string); //Guardara las apariciones de las palabras en todos los archivos
+    OrderedTreeMap* sortedBooks = createOrderedTreeMap(lower_than_string);
+    OrderedTreeMap* fileAppearances = createOrderedTreeMap(lower_than_string); //Guardara las apariciones de las palabras en todos los archivos
     int bookCount = 0;
 
     //showList (books);

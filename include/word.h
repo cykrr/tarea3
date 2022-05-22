@@ -11,6 +11,6 @@ typedef struct Word {
     double relevance;
 } Word;
 
-void showWordContext(TreeMap *map);
+void showWordContext(OrderedTreeMap *map);
 
 #endif

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 void 
-showWordContext(TreeMap *bookMap) 
+showWordContext(OrderedTreeMap *bookMap) 
 {
     char str[101];
     char word[20];
@@ -15,7 +15,7 @@ showWordContext(TreeMap *bookMap)
     printf("Ingrese la palabra a buscar");
     scanf("%[^\n]*s", word);
     getchar();
-    Book *book = searchTreeMap(bookMap, str)->value;
+    Book *book = searchOrderedTreeMap(bookMap, str)->value;
     char line[1024];
     char lineLower[1024];
     rewind(book->fd);

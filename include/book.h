@@ -36,19 +36,35 @@ void showList (List* list);
 List * readBooks();
 
 /** @brief Constructor de `Book`
+ *
  *  @param id ID del libro a procesar.
+ *
+ *  @param fileAppearances Mapa con la cantidad de ocurrencias de todas 
+ *      las palabras en todos los documentos.
+ *
  *  Esta función crea un `Book` en función del ID del
  *  documento a cargar. Inicializa la estructura interna 
  *  del Libro, tal como crear el mapa de frecuencia, 
  *  guardar el ID, obtener el nombre del archivo y verificar
  *  que este existe.
+ *
  *  @return `Book` inicializado.
  *  @public @memberof Book
  */
 Book *createBook(char *id, HashMapSus* fileAppearances);
 
+
+/** @brief Carga los libros y los ordena en el `OrderedTreeMap` `sortedBooks`
+ *
+ *  Procesa la lista de strings `books`, la cual posee los ID de los
+ *  libros a importar. Por cada string encontrada en la lista 
+ *  se crea un tipo `Book`.
+ *  
+ *  @public @memberof Book
+ */
 void loadBooks(List *books, OrderedTreeMap *sortedBooks, 
         HashMapSus* fileAppearances, int *count);
+
 void showBooks(OrderedTreeMap *sortedMap);
 
 void countWords(Book *book, HashMapSus* fileAppearances);

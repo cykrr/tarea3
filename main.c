@@ -61,7 +61,7 @@ int main() {
             case 5:
             {
                 //No esta obteniendo el titulo de manera correcta
-                relevantWords(sortedBooks);
+                relevantWords(sortedBooks, fileAppearances, bookCount);
                 break;
             }
             case 6:

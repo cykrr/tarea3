@@ -35,7 +35,7 @@ void showBook(Book *book, Word *word);
 
 void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances);
 
-void relevantWords(TreeMap* sortedBooks);
+void relevantWords(TreeMap* sortedBooks, TreeMap *fileAppeareances, long docCount);
 
 void mostFrequency(TreeMap* sortedBooks);
 
@@ -68,4 +68,5 @@ frequency(
 
 
 void setBookFrequency(Book* book);
+void setWordRelevance(Word *word, double docCount, double totalMatches);
 #endif

@@ -71,9 +71,12 @@ createBook(char *id, TreeMap* fileAppearances)
         return NULL; 
     }
 
-    // Avanzar 34 caracteres para leer el titulo.
-    for(int i = 0; i < 34; i++) fgetc(book->fd);
-    fgets(book->title, 100*sizeof(char), book->fd);
+    char word[100] = "";
+    while (strcmp(word, "of") != 0)
+        fscanf(book->fd, "%99s", word);
+
+    fgetc(book->fd);
+    fgets(book->title, 99, book->fd);
 
     // Eliminar el Autor si es que existe.
     char *comma = strchr(book->title, ',');
@@ -279,7 +282,7 @@ void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
     }
 }
 
-void relevantWords(TreeMap* sortedBooks)
+void relevantWords(TreeMap* sortedBooks, TreeMap *fileAppeareances, long docCount)
 {
     char in[100];
     printf("Ingrese el libro a buscar: ");
@@ -300,6 +303,7 @@ void relevantWords(TreeMap* sortedBooks)
    
     */
 
+    /* Vemos si el libro existe */
     Pair *aux = searchTreeMap(sortedBooks, in);
     if (aux == NULL)
     {
@@ -311,10 +315,14 @@ void relevantWords(TreeMap* sortedBooks)
     Book *auxBook = aux->value;
     Mheap *heap = createMheap();
 
+
+
     Pair* auxWord = firstTreeMap(auxBook->wordFrequency);
     while (auxWord != NULL) 
     {
-        heap_push(heap, auxWord->value, ((Word*)auxWord)->relevance);
+        Word * auxWordWord = auxWord->value;
+        setWordRelevance(auxWordWord, docCount, *(int*)(searchTreeMap(fileAppeareances, auxWordWord->word)->value));
+        heap_push(heap, auxWordWord, auxWordWord->relevance);
         auxWord = nextTreeMap(auxBook->wordFrequency);
     }
 
@@ -405,6 +413,7 @@ void bookWithWords(TreeMap* sortedBooks)
     printf("Ingrese las palabras a buscar: ");
     scanf("%[^\n]s", in);
     getchar();
+    stringToLower(in);
     List *ret = strToList(in, " ");
 
     Pair *bookPair = firstTreeMap(sortedBooks);

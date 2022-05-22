@@ -11,24 +11,34 @@
 
 
 typedef struct HashMap HashMap;
+typedef struct HashMapSus HashMapSus;
 
-typedef struct Pair {
+typedef struct HashMapPair {
      char * key;
      void * value;
-} Pair;
+} HashMapPair;
+
+typedef struct HashMapSusPair {
+     char * key;
+     int value;
+} HashMapSusPair;
 
 HashMap * createMap(long capacity);
+HashMapSus * createMapSus(long capacity);
 
 void insertMap(HashMap * table, char * key, void * value);
+void insertMapSus(HashMapSus * table, char * key, int value);
 
 void eraseMap(HashMap * table, char * key);
 
-Pair * searchMap(HashMap * table, char * key);
+HashMapPair * searchMap(HashMap * table, char * key);
+HashMapSusPair * searchMapSus(HashMapSus * table, char * key);
 
-Pair * firstMap(HashMap * table);
+HashMapPair * firstMap(HashMap * table);
 
-Pair * nextMap(HashMap * table);
+HashMapPair * nextMap(HashMap * table);
 
 void enlarge(HashMap * map);
+void enlargeSus(HashMapSus * map);
 
 #endif /* HashMap_h */

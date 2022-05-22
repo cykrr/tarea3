@@ -1,17 +1,19 @@
 #include <stdio.h>
-#include "treemap.h"
-#include "list.h"
 #include <string.h>
 
 #include "util.h"
 #include "book.h"
 #include "menu.h"
 
+#include "treemap.h"
+#include "hashmap.h"
+#include "list.h"
+
 
 int main() {
     List *books = NULL; 
     OrderedTreeMap* sortedBooks = createOrderedTreeMap(lower_than_string);
-    OrderedTreeMap* fileAppearances = createOrderedTreeMap(lower_than_string); //Guardara las apariciones de las palabras en todos los archivos
+    HashMapSus* fileAppearances = createMapSus(100);
     int bookCount = 0;
 
     //showList (books);

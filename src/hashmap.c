@@ -6,20 +6,36 @@
 #include "hashmap.h"
 #include "util.h"
 
-typedef struct HashMap HashMap;
 
 int enlarge_called=0;
-struct HashMap 
+
+struct HashMapSus
 {
-    Pair ** buckets;
+    HashMapSusPair ** buckets;
     long size; //cantidad de datos/pairs en la tabla
     long capacity; //capacidad de la tabla
     long current; //indice del ultimo dato accedido
 };
 
-Pair * createPair( char * key,  void * value) 
+struct HashMap 
 {
-    Pair * new = (Pair *)malloc(sizeof(Pair));
+    HashMapPair ** buckets;
+    long size; //cantidad de datos/pairs en la tabla
+    long capacity; //capacidad de la tabla
+    long current; //indice del ultimo dato accedido
+};
+
+HashMapPair * createHashMapPair( char * key,  void * value) 
+{
+    HashMapPair * new = (HashMapPair *)malloc(sizeof(HashMapPair));
+    new->key = key;
+    new->value = value;
+    return new;
+}
+
+HashMapSusPair * createHashMapSusPair( char * key,  int value) 
+{
+    HashMapSusPair * new = (HashMapSusPair *)malloc(sizeof(HashMapPair));
     new->key = key;
     new->value = value;
     return new;
@@ -36,6 +52,37 @@ long hash(char * key, long capacity)
     return hash%capacity;
 }
 
+
+void insertMapSus(HashMapSus * map, char * key, int value) 
+{
+  long clave = hash(key, map->capacity);
+  float porcentaje;
+  map->size = map->size + 1;
+  porcentaje = ((float)map->size / map->capacity);
+
+  if (porcentaje > 0.70)
+  {
+    enlargeSus(map);
+  }
+
+  while (map->buckets[clave] != NULL && map->buckets[clave]->key != NULL)
+  {
+    if (is_equal(key, map->buckets[clave]->key) == 1)
+    {
+        break;
+    }
+    clave = (clave + 1) % map->capacity;//Se recorre el arrgelo circular
+  }
+  if (map->buckets[clave] != NULL)
+  {
+    map->buckets[clave]->key = key;
+    map->buckets[clave]->value = value;
+  }
+  else
+  {
+    map->buckets[clave] = createHashMapSusPair(key, value);
+  }
+}
 
 void insertMap(HashMap * map, char * key, void * value) 
 {
@@ -64,23 +111,23 @@ void insertMap(HashMap * map, char * key, void * value)
   }
   else
   {
-    map->buckets[clave] = createPair(key, value);
+    map->buckets[clave] = createHashMapPair(key, value);
   }
 }
 
 void enlarge(HashMap * map) 
 {
   enlarge_called = 1; //no borrar (testing purposes)
-  Pair** oldBucket = (Pair**) calloc (map->capacity, sizeof(Pair*));
+  HashMapPair** oldBucket = (HashMapPair**) calloc (map->capacity, sizeof(HashMapPair*));
   for (int i = 0 ; i < map->capacity ; i = i + 1)
   {
     if (map->buckets[i] != NULL && map->buckets[i]->key != NULL)
     {
-      oldBucket[i] = createPair(map->buckets[i]->key, map->buckets[i]->value); 
+      oldBucket[i] = createHashMapPair(map->buckets[i]->key, map->buckets[i]->value); 
     }
   }
   map->capacity = map->capacity * 2;
-  Pair** newBucket = (Pair**) calloc (map->capacity, sizeof(Pair*));
+  HashMapPair** newBucket = (HashMapPair**) calloc (map->capacity, sizeof(HashMapPair*));
   map->buckets = newBucket;
   map->size = 0;
   for (int i = 0 ; i < map->capacity/2 ; i = i + 1)
@@ -93,11 +140,46 @@ void enlarge(HashMap * map)
 
 }
 
+void enlargeSus(HashMapSus * map) 
+{
+  enlarge_called = 1; //no borrar (testing purposes)
+  HashMapSusPair** oldBucket = (HashMapSusPair**) calloc (map->capacity, sizeof(HashMapSusPair*));
+  for (int i = 0 ; i < map->capacity ; i = i + 1)
+  {
+    if (map->buckets[i] != NULL && map->buckets[i]->key != NULL)
+    {
+      oldBucket[i] = createHashMapSusPair(map->buckets[i]->key, map->buckets[i]->value); 
+    }
+  }
+  map->capacity = map->capacity * 2;
+  HashMapSusPair** newBucket = (HashMapSusPair**) calloc (map->capacity, sizeof(HashMapSusPair*));
+  map->buckets = newBucket;
+  map->size = 0;
+  for (int i = 0 ; i < map->capacity/2 ; i = i + 1)
+  {
+    if (oldBucket[i] != NULL && oldBucket[i]->key != NULL)
+    {
+      insertMapSus(map, oldBucket[i]->key, oldBucket[i]->value); 
+    }
+  }
+
+}
+
 
 HashMap * createMap(long capacity) 
 {
     HashMap* tmp = (HashMap*) calloc (capacity, sizeof(HashMap));
-    tmp->buckets = (Pair**) calloc (capacity, sizeof(Pair*));
+    tmp->buckets = (HashMapPair**) calloc (capacity, sizeof(HashMapPair*));
+    tmp->capacity = capacity;
+    tmp->size = 0;
+    tmp->current = -1;
+    return tmp;
+}
+
+HashMapSus *createMapSus(long capacity) 
+{
+    HashMapSus* tmp = (HashMapSus*) calloc (capacity, sizeof(HashMap));
+    tmp->buckets = (HashMapSusPair**) calloc (capacity, sizeof(HashMapPair*));
     tmp->capacity = capacity;
     tmp->size = 0;
     tmp->current = -1;
@@ -119,7 +201,7 @@ void eraseMap(HashMap * map,  char * key)
     }
 }
 
-Pair * searchMap(HashMap * map,  char * key) 
+HashMapPair * searchMap(HashMap * map,  char * key) 
 {   
     long clave = hash(key, map->capacity);
     while (map->buckets[clave] != NULL && map->buckets[clave]->key != NULL)
@@ -135,7 +217,12 @@ Pair * searchMap(HashMap * map,  char * key)
     return NULL;
 }
 
-Pair * firstMap(HashMap * map) 
+HashMapSusPair * searchMapSus(HashMapSus * map,  char * key) 
+{   
+    return (HashMapSusPair*)searchMap((HashMap*)map, key);
+}
+
+HashMapPair * firstMap(HashMap * map) 
 {
     for (int i = 0 ; i < map->capacity ; i = i + 1)
     {
@@ -148,7 +235,7 @@ Pair * firstMap(HashMap * map)
     return NULL;
 }
 
-Pair * nextMap(HashMap * map) 
+HashMapPair * nextMap(HashMap * map) 
 {
   for (long clave = map->current ; clave < map->capacity ; clave = clave + 1)
   {

@@ -1,15 +1,17 @@
 #ifndef BOOK_H
 #define BOOK_H
-#include "treemap.h"
 #include "list.h"
 #include <stdio.h>
 #include "word.h"
 #include "util.h"
 
+#include "treemap.h"
+#include "hashmap.h"
+
 
 typedef struct Book {
     // Mapa de palabras
-    OrderedTreeMap* wordFrequency;
+    HashMap* wordFrequency;
     char title[100];
     char id[30];
     FILE* fd;
@@ -21,21 +23,21 @@ void showList (List* list);
 
 List * readBooks();
 
-Book *createBook(char *id, OrderedTreeMap* fileAppearances);
+Book *createBook(char *id, HashMapSus* fileAppearances);
 
 void loadBooks(List *books, OrderedTreeMap *sortedBooks, 
-        OrderedTreeMap* fileAppearances, int *count);
+        HashMapSus* fileAppearances, int *count);
 void showBooks(OrderedTreeMap *sortedMap);
 
-void countWords(Book *book, OrderedTreeMap* fileAppearances);
+void countWords(Book *book, HashMapSus* fileAppearances);
 
-void searchBooks(OrderedTreeMap *map, int docCount, OrderedTreeMap *fileAppearances);
+void searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppearances);
 
 void showBook(Book *book, Word *word);
 
-void getRelevance (OrderedTreeMap *map, int totalDocuments, OrderedTreeMap* fileAppearances);
+void getRelevance (OrderedTreeMap *map, int totalDocuments, HashMap* fileAppearances);
 
-void relevantWords(OrderedTreeMap* sortedBooks, OrderedTreeMap *fileAppeareances, long docCount);
+void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, long docCount);
 
 void mostFrequency(OrderedTreeMap* sortedBooks);
 

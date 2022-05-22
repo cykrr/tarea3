@@ -66,7 +66,7 @@ int main() {
             }
             case 6:
             {
-                searchBooks(sortedBooks);
+                searchBooks(sortedBooks, bookCount, fileAppearances);
                 break;
             }
             case 7:

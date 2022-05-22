@@ -90,8 +90,6 @@ createBook(char *id, TreeMap* fileAppearances)
     char *cr = strchr(book->title, '\r');
     if(cr != NULL) *cr = '\0';
 
-    countWords(book, fileAppearances);
-    setBookFrequency(book);
 
     return book;
 }
@@ -126,6 +124,8 @@ void loadBooks(List* books, TreeMap* sortedBooks, TreeMap* fileAppearances, int 
         Book *book = createBook(id, fileAppearances);
 
         if(book != NULL && searchTreeMap(sortedBooks, book->title) == NULL)  {
+            countWords(book, fileAppearances);
+            setBookFrequency(book);
             insertTreeMap(sortedBooks, book->title, book);
             *count += 1;
 
@@ -185,10 +185,18 @@ countWords(Book *book, TreeMap* fileAppearances)
 
             insertTreeMap(book->wordFrequency, word->word, word);
             //Contar apariciones de una palabra en el archivo
-            Pair *tmp = searchTreeMap(fileAppearances, x);
+            Pair *tmp = searchTreeMap(fileAppearances, word->word);
             if (tmp != NULL) 
             {
-                *((int*)(tmp->value)) += 1;
+                int * auxint = tmp->value;
+                if (auxint != NULL)
+                *auxint += 1;
+                else {
+
+                    tmp->value = malloc(sizeof(int));
+                    int * auxint = tmp->value;
+                    *auxint = 1;
+                }
             }
             else
             {
@@ -205,11 +213,11 @@ countWords(Book *book, TreeMap* fileAppearances)
 }
 
 void 
-searchBooks(TreeMap *map) 
+searchBooks(TreeMap *map, int docCount, TreeMap *fileAppeareances) 
 {
     char in[50];
     printf("Ingrese la palabra a buscar: ");
-    scanf("%s", in);
+    scanf("%[^\n]*s", in);
     getchar();
     Pair *aux = firstTreeMap(map);
     Book *auxBook = NULL;
@@ -222,7 +230,11 @@ searchBooks(TreeMap *map)
         //Se recorren las palabras
         if (auxWord != NULL) 
         {
-            heap_push(heap, auxBook, ((Word*)auxWord)->relevance);
+            Word * auxWordWord = (Word*)searchTreeMap(auxBook->wordFrequency, in);
+            
+            int * auxint = searchTreeMap(fileAppeareances, in)->value;
+            setWordRelevance(auxWordWord, docCount, *auxint);
+            heap_push(heap, auxBook, auxWordWord->relevance);
         }
         aux = nextTreeMap(map);
     }
@@ -247,6 +259,7 @@ showBook(Book *book, Word *word)
     printf("ID: %s\n", book->id);
     printf("Titulo: %s\n", book->title);
     printf("Apariciones: %d\n", word->appearances);
+    printf("Relevancia: %lf\n", word->relevance);
 }
 
 void getRelevance (TreeMap *map, int totalDocuments, TreeMap* fileAppearances)
@@ -334,6 +347,7 @@ void relevantWords(TreeMap* sortedBooks, TreeMap *fileAppeareances, long docCoun
         heap_pop(heap);
         i++;
     }
+    printf("!%ld\n", docCount);
 }
 
 //Función que muestra las palabras con mayor frecuencia

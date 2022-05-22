@@ -29,7 +29,7 @@ void showBooks(TreeMap *sortedMap);
 
 void countWords(Book *book, TreeMap* fileAppearances);
 
-void searchBooks(TreeMap *map);
+void searchBooks(TreeMap *map, int docCount, TreeMap *fileAppearances);
 
 void showBook(Book *book, Word *word);
 

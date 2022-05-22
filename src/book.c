@@ -222,12 +222,9 @@ searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppeareances)
             Word * auxWordWord = auxWord->value;
             
             HashMapSusPair *auxint = searchMapSus(fileAppeareances, in);
-            printf("gol\n");
             if (auxint) {
                 auxWordWord->frequency = frequency(auxWordWord->appearances, auxBook->wordCount);
                 setWordRelevance(auxWordWord, docCount, auxint->value);
-                printf("raios%d %d %d\n", auxWordWord->appearances, docCount, auxint->value);
-
             }
             heap_push(heap, auxBook, auxWordWord->relevance);
         }

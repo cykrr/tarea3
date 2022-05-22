@@ -9,20 +9,42 @@
 #include "hashmap.h"
 
 
+/** @brief Almacena información del libro
+ */ 
 typedef struct Book {
     // Mapa de palabras
-    HashMap* wordFrequency;
-    char title[100];
-    char id[30];
-    FILE* fd;
-    long charCount;
-    long wordCount;
+    HashMap* wordFrequency; /**< Mapa que almacena la frecuencia de las palabras.*/
+    char title[100]; /**< Almacena el título del libro. */
+    char id[30]; /**< Almacena el ID del libro*/
+    FILE* fd; /**< Almacena el file-descriptor del libro. */
+    long charCount; /**< Almacena la cantidad de carácteres en el libro. */
+    long wordCount; /**< Almacena la cantidad de palabras en el libro. */
 } Book;
 
+/** @brief Muestra una lista de libros
+ *  @param list Lista del tipo Libro que contiene los libros a mostrar
+ *  @public @memberof Book
+ */
 void showList (List* list);
 
+
+/** @brief Recibe la entrada de los libros a leer
+ *  @return Lista enlazada con un `Book` por cada ID, en caso de que el 
+ *      archivo exista.
+ *  @public @memberof Book
+ */
 List * readBooks();
 
+/** @brief Constructor de `Book`
+ *  @param id ID del libro a procesar.
+ *  Esta función crea un `Book` en función del ID del
+ *  documento a cargar. Inicializa la estructura interna 
+ *  del Libro, tal como crear el mapa de frecuencia, 
+ *  guardar el ID, obtener el nombre del archivo y verificar
+ *  que este existe.
+ *  @return `Book` inicializado.
+ *  @public @memberof Book
+ */
 Book *createBook(char *id, HashMapSus* fileAppearances);
 
 void loadBooks(List *books, OrderedTreeMap *sortedBooks, 

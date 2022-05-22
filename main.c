@@ -9,8 +9,23 @@
 #include "hashmap.h"
 #include "list.h"
 
-// Punto de entrada el programa
+/**
+ * @file main.c
+ * @author Benjamín Robles y Arturo Reyes
+ * @date 22 May 2022
+ * @brief Punto de entrada de la tarea 3.
+ *
+ * En este archivo se encuentra el menú principal
+ * del programa así como las llamadas a las 
+ * funciones correspondientes a los requerimientos de la tarea.
+ */
 
+
+/**
+ * @brief Punto de entrada
+ *
+ * Punto de entrada a la tarea 3.
+ */
 int main() {
     List *books = NULL;  // Almacena la lista de libros a cargar.
     // Mapa ordenado para almacenar los libros y ordenarlos por nombre

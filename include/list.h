@@ -8,9 +8,20 @@ struct ListNode {
     struct ListNode * next;
     struct ListNode * prev;
 };
-
+/**
+ * @brief Nodo de la lista enlazada.
+ *
+ * Nodo que contiene punteros al dato,
+ * así como punteros al anterior y 
+ * posterior elemento de la lista.
+ */
 typedef struct ListNode ListNode;
 
+/**
+ * @brief Lista enlazada 
+ *
+ * Lista doblemente enlazada 
+ */
 typedef struct List List;
 
 struct List {

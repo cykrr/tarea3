@@ -39,6 +39,9 @@ TreeNode * createTreeNode(void* key, void * value) {
     return new;
 }
 
+/* Devuelve un puntero a un Mapa ordenado.
+ * @param: 
+ */
 OrderedTreeMap * createOrderedTreeMap(int (*lower_than) (void* key1, void* key2)) {
     
     OrderedTreeMap * new = (OrderedTreeMap *)malloc(sizeof(OrderedTreeMap));

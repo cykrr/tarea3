@@ -8,29 +8,6 @@
 #include <math.h>
 #include "hashmap.h"
 
-void showList (List* list)
-{
-    char* id = listFirst(list);
-
-    while (id != NULL)
-    {
-        printf("%s\n", id);
-        id = listNext(list);
-    }     
-}
-
-List * readBooks() {
-    printf("Ingrese los ID de los libros a leer: \n");
-    char ids[512];
-
-    fflush(stdin);
-    scanf("%[^\n]*s", ids);
-    getchar();
-
-    List *ret = strToList(ids, " ");
-
-    return ret;
-}
 
 /* Es necesario actualizar en cada palabra del libro 
  * la cantidad de coincidencias, así como actualizarlas 
@@ -90,28 +67,6 @@ createBook(char *id)
     return book;
 }
 
-void showBooks(OrderedTreeMap *sortedMap) 
-{
-    Pair *bookPair = firstOrderedTreeMap(sortedMap);
-    Book *book;
-    if (bookPair == NULL)
-    {
-        printf("No se ha ingresado ningun documento\n");
-        return;
-    }
-
-    //Ciclo que recorre todos los libros ingresados.
-    while (bookPair != NULL) 
-    {
-        book = bookPair->value;
-
-        printf("ID: %s\n", book->id);
-        printf("Title: %s\n", book->title);
-        printf("Cantidad de palabras: %ld\n", book->wordCount);
-        printf("Cantiad de caracteres: %ld\n", book->charCount);
-        bookPair = nextOrderedTreeMap(sortedMap);
-    }
-}
 
 void loadBooks(List* books, OrderedTreeMap* sortedBooks, HashMapSus* fileAppearances, int *count)
 {
@@ -192,51 +147,6 @@ countWords(Book *book, HashMapSus* fileAppearances)
    }
 }
 
-void 
-searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppeareances) 
-{
-    char in[100];
-    printf("Ingrese la palabra a buscar: ");
-    scanf("%[^\n]*s", in);
-    getchar();
-    Pair *aux = firstOrderedTreeMap(map);
-    Book *auxBook = NULL;
-    Mheap *heap = createMheap();
-    //Se recorren los libros
-    while (aux != NULL)
-    {
-        auxBook = aux->value;
-        HashMapPair * auxWord = searchMap(auxBook->wordFrequency, in);
-        //Se recorren las palabras
-        if (auxWord != NULL) 
-        {
-            Word * auxWordWord = auxWord->value;
-            
-            HashMapSusPair *auxint = searchMapSus(fileAppeareances, in);
-            //Si el dato obtenido no es NULL se obtiene la frecuencia y relevancia.
-            if (auxint) {
-                auxWordWord->frequency = frequency(auxWordWord->appearances, auxBook->wordCount);
-                setWordRelevance(auxWordWord, docCount, auxint->value);
-            }
-            heap_push(heap, auxBook, auxWordWord->relevance);
-        }
-        aux = nextOrderedTreeMap(map);
-    }
-
-    if (heap_top(heap) == NULL)
-    {
-        printf("Ningun libro contenia la palabra\n");
-    }
-
-    //Muestra los libros ordenados por relevancia.
-    while (heap_top(heap)) 
-    {
-        auxBook = heap_top(heap);
-        HashMapPair* auxWord = searchMap(auxBook->wordFrequency, in);
-        showBook(auxBook, auxWord->value);
-        heap_pop(heap);
-    }
-}
 
 void 
 showBook(Book *book, Word *word) 
@@ -296,59 +206,7 @@ void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, lo
     printf("!%ld\n", docCount);
 }
 
-//Función que muestra las palabras con mayor frecuencia
-void mostFrequency(OrderedTreeMap* sortedBooks)
-{
-    char in[30];
-    printf("Ingrese el ID del libro\n");
-    scanf("%s", in);
-    getchar();
-    Pair *bookPair = firstOrderedTreeMap(sortedBooks);
-    Book *book;
-    if (bookPair == NULL)
-    {
-        printf("No se ha ingresado ningun documento\n");
-        return;
-    }
 
-    while (bookPair != NULL)
-    {
-        book = bookPair->value;
-
-        //Recorre todos los libros existentes, si existe muestra sus datos y termina la función.
-        if (strcmp(in, book->id) == 0)
-        {
-            //Se muestran los datos del libro
-            printf("ID: %s\n", book->id);
-            printf("Title: %s\n", book->title);
-            printf("Populares: \n");
-            HashMapPair *aux = firstMap(book->wordFrequency);
-            Mheap *heap = createMheap();
-
-            //Se añaden todas las palabras el Heap para tenerlas ordenadas
-            while (aux != NULL) 
-            {
-                heap_push(heap, aux->value, ((Word*)(aux->value))->frequency );
-                aux = nextMap(book->wordFrequency);
-            }
-            //Se muestran las 10 palabras con mayor frecuencia del texto.
-            for (int i = 0; i < 10; i++) 
-            {
-                Word* word = heap_top(heap);
-                heap_pop(heap);
-                printf("%s: %lf\n", word->word, word->frequency);
-            }
-            return;
-        }
-        bookPair = nextOrderedTreeMap(sortedBooks);
-    }
-    //Caso en donde no se encuentra el ID ingresado.
-    printf("El documento que ingreso no existe\n");
-}
-
-void setWordRelevance(Word *word, double documentCount, double totalMatches) {
-    word->relevance = relevance(documentCount, totalMatches, word->frequency);
-}
 
 void setWordFrequency(Word* word, long wordsInBook)
 {
@@ -368,107 +226,10 @@ void setBookFrequency(Book* book)
     }
 }
 
-/*Funcion que muestra los libros que contienen 
-/*todas las palabras ingresadas*/
-void bookWithWords(OrderedTreeMap* sortedBooks)
-{
-    char in[100];
-    printf("Ingrese las palabras a buscar: ");
-    scanf("%[^\n]s", in);
-    getchar();
-    stringToLower(in);//Se pasan todas las palabras a minusculas.
-    List *ret = strToList(in, " ");//Se seaparan por el espacio y se crea una lista con cada palabra.
 
-    Pair *bookPair = firstOrderedTreeMap(sortedBooks);
-    //En caso de que ningun documento a sido leido
-    if (bookPair == NULL)
-    {
-        printf("No se ha ingresado ningun documento\n");
-        return;
-    }
-    Book *book;
-    int flag;//Si es 0 una palabra no se encontraba/si es 1 se encontraba.
-    HashMapPair *auxWrd;
-    //Se recorren todos los libros.
-    while (bookPair != NULL)
-    {
-        flag = 1;
-        book = bookPair->value;
-        char* words = (char*)listFirst(ret);
-        //Se recorre la lista completa de palabras ingresadas
-        while (words != NULL)
-        {
-            auxWrd = searchMap(book->wordFrequency, words);
-            //Si la palabra no se encontraba se cambia el valor a 0
-            if (auxWrd == NULL) 
-            {
-                flag = 0;
-            }
-            words = (char*)listNext(ret);
-        }
-        //Si todas las palabras se encontraban se muestra el titulo.
-        if (flag == 1)
-        {
-            printf("%s\n", book->title);
-        }
-        bookPair = nextOrderedTreeMap(sortedBooks);
-    }
-}
-
-OrderedTreeMap *
-populateExcludeMap() 
-{
-    OrderedTreeMap *excludeMap = createOrderedTreeMap(lower_than_string);
-
-    char excludeWords[][100] = {"the", "and", "of", "to", "that", 
-        "in", "he", "shall", "unto", "for", "a", "was", "it",
-        "she", "said", "you", "be", "an", "have", "i", "not",
-        "on", "with", "as", "do", "at", "this", "but", "his",
-        "by", "from", "they", "we", "say", "her", "or", "will",
-        "my", "one", "all", "would", "there", "their", "what", 
-        "so", "up", "out", "if", "about", "who", "get", "which",
-        "go", "me", "when", "make", "can", "like", "no", "just",
-        "him", "know", "take", "into", "your", "good", "some", 
-        "could", "them", "than", "then", "now", "come", "its",
-        "also", "how", "our", "well", "even", "want", "because",
-        "any", "most", "us", "are", "is", "had", "were", "went", 
-        "ye", "thee", "thou", "thy", "hath", "has", "may", "more"};
-    int count = sizeof(excludeWords) / (100 * sizeof(char));
-    //Se insertan las palabras al mapa de exclusion
-    for (int i = 0; i < count; i++) {
-        char *dup = _strdup(excludeWords[i]);
-        insertOrderedTreeMap(excludeMap, dup, dup);
-    }
-    return excludeMap;
-}
 
 void updateBookRelevance(Book *book) {
 
 }
 
 
-double 
-relevance
-(
-        /* la cantidad de documentos. Se actualiza cada vez que
-         * se añade un libro. */
-                float documentCount,
-        /*  coincidencias en todos los libros. Se actualiza cada vez
-         *  que se añade un libro. */
-                float totalMatches, 
-        /* frecuencia de la palabra en el libro */
-                float frequency
-)   {
-        
-        return frequency *= logf(documentCount/totalMatches);
-}
-
-double 
-frequency( 
-        /*  coincidencias en el libro. Se mantiene constante. */
-                double bookMatches,
-        /*  palabras por libro. Se mantiene constante. */
-                double wordsInBook
-) {
-       return (bookMatches / wordsInBook);
-}

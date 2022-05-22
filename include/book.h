@@ -21,19 +21,6 @@ typedef struct Book {
     long wordCount; /**< Almacena la cantidad de palabras en el libro. */
 } Book;
 
-/** @brief Muestra una lista de libros
- *  @param list Lista del tipo Libro que contiene los libros a mostrar
- *  @public @memberof Book
- */
-void showList (List* list);
-
-
-/** @brief Recibe la entrada de los libros a leer
- *  @return Lista enlazada con un `Book` por cada ID, en caso de que el 
- *      archivo exista.
- *  @public @memberof Book
- */
-List * readBooks();
 
 /** @brief Constructor de `Book`
  *
@@ -49,7 +36,7 @@ List * readBooks();
  *  que este existe.
  *
  *  @return `Book` inicializado.
- *  @public @memberof Menu
+ *  @public @memberof Book
  */
 Book *createBook(char *id);
 
@@ -80,16 +67,6 @@ Book *createBook(char *id);
 void loadBooks(List *books, OrderedTreeMap *sortedBooks, 
         HashMapSus* fileAppearances, int *count);
 
-/** @brief muestra todos los libros en el Mapa `sortedMap`
- *  
- *  @param sortedMap `OrderedTreeMap` con todos los libros ordenados por título.
- *
- * Muestra el ID, Titulo, Cantidad de palabras y Cantidad de caracteres de todos los 
- * libros presentes.
- *
- *  @public @memberof Menu
- */
-void showBooks(OrderedTreeMap *sortedMap);
 
 /** @brief Cuenta la cantidad de apariciones de las palabras.
  *  
@@ -104,27 +81,10 @@ void showBooks(OrderedTreeMap *sortedMap);
  *  De ser así, se le aumenta uno a su contador y de lo
  *  contrario se añade.
  *
- *  @public @memberof Menu
+ *  @public @memberof Book
  */
 void countWords(Book *book, HashMapSus* fileAppearances);
 
-/**
- *  @brief Función del menú que busca un libro en base a la coincidencia
- *      de palabras
- *
- *  @param map Mapa Ordenado con los libros ordenados por titulo.
- *
- *  @param docCount Cantidad de documentos cargados.
- *
- *  @param fileAppearances HashMap con todas las apariciones 
- *      de todas las palabras en todos los documentos.
- *
- *  Esta función recorre todos los libros buscando la palabra seleccionada
- *  Si el libro contiene la palabra que ingresó el usuario se inserta en 
- *  un montículo para así mostrarlas ordenadas por su frecuencia.
- * @public @memberof Menu
- */
-void searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppearances);
 
 /** 
  * @brief Muestra el ID, Titulo, Apariciones y relevancia de un libro
@@ -150,85 +110,14 @@ void showBook(Book *book, Word *word);
 void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, long docCount);
 
 
-/** @brief Muestra las palabras con mayor frecuencia
- *
- *  @param sortedBooks Mapa de todos los libros ordenados por nombre.
- *
- *  Dado un ID de un libro específico muestra sus palabras con mayor 
- *  frecuencia.
- *  Si no se han ingresado libros. Se avisa y se termina la función
- *  De lo contrario se recorren los libros y se detiene al encontrar
- *  una coincidencia en el ID, posteriomente muestra la información
- *  del libro ID, Titulo y populares, luego imprime las
- *  palabras ordenadas por su frecuencia.
- *
- *  @public @memberof Menu
- */
-void mostFrequency(OrderedTreeMap* sortedBooks);
 
 
-/** @brief Buscar un libro por coincidencias 
- *  @param sortedBook Mapa ordenado con todos los libros ordenados 
- *      por titulo
- *
- *   Recibe las palabras a buscar separadas por un espacio.
- *   Se separan estas palabras a una lista enlazada para
- *   posteriormente recorrerla y mostrar el titulo de los
- *   libros si estos poseen alguna de las palabras en 
- *   cuestión.
- *
- *  @public @memberof Menu
- */
-void bookWithWords(OrderedTreeMap* sortedBooks);
 
-/** @brief Llenar el mapa con las palabras correspondientes.
- *
- *  Crea un Map con las palabras a excluir para
- *  reducir la complejidad de su obtención.
- *  @public @memberof Menu
- *  @return Mapa Ordenado con las palabras a excluir.
- */
-OrderedTreeMap *populateExcludeMap();
-
-/** @brief Calcula la frecuencia relevancia función de sus parámetros
- *  @param documentCount La cantidad de documentos. Se actualiza
- *      cada vez que se añade un libro.
- *
- *  @param totalMatches Coincidencias en todos los libros.
- *      Se actualiza cada vez que se añade un libro.
- *  @param frequency Frecuencia de la palabra en el libro.
- *
- *  @private @memberof Word
- */
-double relevance(
-                float documentCount,
-                float totalMatches, 
-                float frequency);
-
-/**  @brief Calcula la frecuencia de la palabra en el libro.
- *  @param bookMatches coincidencias en el libro. Se mantiene constante. 
- *  @param wordsInBook palabras por libro. Se mantiene constante. 
- *  @private @memberof Word
- */
-double frequency( 
-                double bookMatches,
-                double wordsInBook
-);
 
 /** @brief Establece la frecuencia de todas las palabras en el libro 
  *  @param book Libro del cual calcular la frecuencia
+ *  @private @memberof Book
  */
 void setBookFrequency(Book* book);
-/** @brief Establece la relevancia de una palabra determinada 
- *  @param word Palabra a modificar.
- *  @param docCount Cantidad de documentos cargados
- *  @param totalMatches Cantidad de coincidencias de la palabra
- *      en todos los documentos.
- *
- *  Establece la relevancia de la palabra basándose en su frecuencia
- *  previamente calculada pues no es necesario calcularla de nuevo.
- *  @public @memberof Word
- */
-void setWordRelevance(Word *word, double docCount, double totalMatches);
 
 #endif

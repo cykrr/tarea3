@@ -49,7 +49,7 @@ List * readBooks();
  *  que este existe.
  *
  *  @return `Book` inicializado.
- *  @public @memberof Book
+ *  @public @memberof Menu
  */
 Book *createBook(char *id);
 
@@ -87,7 +87,7 @@ void loadBooks(List *books, OrderedTreeMap *sortedBooks,
  * Muestra el ID, Titulo, Cantidad de palabras y Cantidad de caracteres de todos los 
  * libros presentes.
  *
- *  @public @memberof Book
+ *  @public @memberof Menu
  */
 void showBooks(OrderedTreeMap *sortedMap);
 
@@ -104,7 +104,7 @@ void showBooks(OrderedTreeMap *sortedMap);
  *  De ser así, se le aumenta uno a su contador y de lo
  *  contrario se añade.
  *
- *  @public @memberof Book
+ *  @public @memberof Menu
  */
 void countWords(Book *book, HashMapSus* fileAppearances);
 
@@ -154,37 +154,81 @@ void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, lo
  *
  *  @param sortedBooks Mapa de todos los libros ordenados por nombre.
  *
+ *  Dado un ID de un libro específico muestra sus palabras con mayor 
+ *  frecuencia.
+ *  Si no se han ingresado libros. Se avisa y se termina la función
+ *  De lo contrario se recorren los libros y se detiene al encontrar
+ *  una coincidencia en el ID, posteriomente muestra la información
+ *  del libro ID, Titulo y populares, luego imprime las
+ *  palabras ordenadas por su frecuencia.
+ *
  *  @public @memberof Menu
  */
 void mostFrequency(OrderedTreeMap* sortedBooks);
 
 
+/** @brief Buscar un libro por coincidencias 
+ *  @param sortedBook Mapa ordenado con todos los libros ordenados 
+ *      por titulo
+ *
+ *   Recibe las palabras a buscar separadas por un espacio.
+ *   Se separan estas palabras a una lista enlazada para
+ *   posteriormente recorrerla y mostrar el titulo de los
+ *   libros si estos poseen alguna de las palabras en 
+ *   cuestión.
+ *
+ *  @public @memberof Menu
+ */
 void bookWithWords(OrderedTreeMap* sortedBooks);
 
-// Llenar el mapa con las palabras correspondientes.
-//
-
+/** @brief Llenar el mapa con las palabras correspondientes.
+ *
+ *  Crea un Map con las palabras a excluir para
+ *  reducir la complejidad de su obtención.
+ *  @public @memberof Menu
+ *  @return Mapa Ordenado con las palabras a excluir.
+ */
 OrderedTreeMap *populateExcludeMap();
 
+/** @brief Calcula la frecuencia relevancia función de sus parámetros
+ *  @param documentCount La cantidad de documentos. Se actualiza
+ *      cada vez que se añade un libro.
+ *
+ *  @param totalMatches Coincidencias en todos los libros.
+ *      Se actualiza cada vez que se añade un libro.
+ *  @param frequency Frecuencia de la palabra en el libro.
+ *
+ *  @private @memberof Word
+ */
 double relevance(
-        /* la cantidad de documentos. Se actualiza cada vez que
-         * se añade un libro. */
                 float documentCount,
-        /*  coincidencias en todos los libros. Se actualiza cada vez
-         *  que se añade un libro. */
                 float totalMatches, 
-        /*  Frecuencia de la palabra en el libro */
                 float frequency);
 
-double 
-frequency( 
-        /*  coincidencias en el libro. Se mantiene constante. */
+/**  @brief Calcula la frecuencia de la palabra en el libro.
+ *  @param bookMatches coincidencias en el libro. Se mantiene constante. 
+ *  @param wordsInBook palabras por libro. Se mantiene constante. 
+ *  @private @memberof Word
+ */
+double frequency( 
                 double bookMatches,
-        /*  palabras por libro. Se mantiene constante. */
                 double wordsInBook
 );
 
-
+/** @brief Establece la frecuencia de todas las palabras en el libro 
+ *  @param book Libro del cual calcular la frecuencia
+ */
 void setBookFrequency(Book* book);
+/** @brief Establece la relevancia de una palabra determinada 
+ *  @param word Palabra a modificar.
+ *  @param docCount Cantidad de documentos cargados
+ *  @param totalMatches Cantidad de coincidencias de la palabra
+ *      en todos los documentos.
+ *
+ *  Establece la relevancia de la palabra basándose en su frecuencia
+ *  previamente calculada pues no es necesario calcularla de nuevo.
+ *  @public @memberof Word
+ */
 void setWordRelevance(Word *word, double docCount, double totalMatches);
+
 #endif

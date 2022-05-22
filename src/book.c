@@ -276,7 +276,7 @@ void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, lo
         Word * auxWordWord = auxWord->value;
         HashMapSusPair *aux = searchMapSus(fileAppeareances, auxWordWord->word);
         if(aux != NULL)
-        setWordRelevance(auxWordWord, docCount, aux->value);
+            setWordRelevance(auxWordWord, docCount, aux->value);
         /*else 
             setWordRelevance(auxWordWord, docCount, 1);*/
         //Se inserta la palabra en el heap con relevancia como prioridad.

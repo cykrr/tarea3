@@ -9,69 +9,74 @@
 #include "hashmap.h"
 #include "list.h"
 
+// Punto de entrada el programa
 
 int main() {
-    List *books = NULL; 
-    OrderedTreeMap* sortedBooks = createOrderedTreeMap(lower_than_string);
+    List *books = NULL;  // Almacena la lista de libros a cargar.
+    // Mapa ordenado para almacenar los libros y ordenarlos por nombre
+    OrderedTreeMap* sortedBooks = createOrderedTreeMap(lower_than_string); 
+    /* HashMap para almacenar las apariciones de todas las palabras en todos
+     * los archivos */ 
     HashMapSus* fileAppearances = createMapSus(100);
+    // Almacena la cantidad de libros cargados por el programa
     int bookCount = 0;
 
-    //showList (books);
-
-    int in = 0;
+    int in = 1; // almacena la entrada
     while (1) 
     {
-        showMenu();
+
+        showMenu(); // Muestra las opciones del menú disponibles
+
         do
         {
-            printf("Ingrese una opcion valida\n");
+            // Solo mostrar advertencia de ser necesario
+            if (in < 0 || in > 7)
+                printf("Ingrese una opcion valida\n");
             scanf("%d", &in);
             getchar(); // Eliminar \n del stdin
+                       //
         }while(in < 0 || in > 7);
 
         switch (in) 
         {
-            case 0:
+            case 0: // Salir del programa
             {
                 printf("Gracias por utilizar el programa!");
                 return 0;
             }
-            case 1:
+            case 1: // Importar libros
             {
                 books = readBooks();
                 loadBooks(books, sortedBooks, fileAppearances,
                         &bookCount);
-                // getRelevance(sortedBooks, bookCount, fileAppearances);
-                // getFrequency(sortedBooks);
                 break;
             }
-            case 2:
+            case 2: // Mostrar libros
             {
                 showBooks(sortedBooks);
                 break;
             }
-            case 3:
+            case 3: // Buscar libro por coincidencias
             {
                 bookWithWords(sortedBooks);
                 break;
             }
-            case 4:
+            case 4: // Palabras con mayor frecuencia
             {
                 mostFrequency(sortedBooks);
                 break;
             }
-            case 5:
+            case 5: // Palabras más relevantes
             {
-                //No esta obteniendo el titulo de manera correcta
                 relevantWords(sortedBooks, fileAppearances, bookCount);
                 break;
             }
-            case 6:
+            case 6: // Buscar libros por palabra
             {
                 searchBooks(sortedBooks, bookCount, fileAppearances);
                 break;
             }
-            case 7:
+            case 7: // Mostrar palabra en contexto
             {
                 showWordContext(sortedBooks);
                 break;
@@ -79,5 +84,4 @@ int main() {
         }
     }
 
-    return 0;
 }

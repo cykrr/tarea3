@@ -55,10 +55,8 @@ double relevance(
         /*  coincidencias en todos los libros. Se actualiza cada vez
          *  que se añade un libro. */
                 float totalMatches, 
-        /*  coincidencias en el libro. Se mantiene constante. */
-                double bookMatches,
-        /*  palabras por libro. Se mantiene constante. */
-                double wordsInBook);
+        /*  Frecuencia de la palabra en el libro */
+                float frequency);
 
 double 
 frequency( 
@@ -68,4 +66,6 @@ frequency(
                 double wordsInBook
 );
 
+
+void setBookFrequency(Book* book);
 #endif

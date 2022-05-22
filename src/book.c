@@ -88,6 +88,7 @@ createBook(char *id, TreeMap* fileAppearances)
     if(cr != NULL) *cr = '\0';
 
     countWords(book, fileAppearances);
+    setBookFrequency(book);
 
     return book;
 }
@@ -377,29 +378,27 @@ void mostFrequency(TreeMap* sortedBooks)
     printf("El documento que ingreso no existe\n");
 }
 
-//Se obtiene la frecuencia de todas las palabras.
-void getFrequency(TreeMap* sortedBooks)
-{
-    Pair *bookPair = firstTreeMap(sortedBooks);
-    if (bookPair == NULL) return;
-    Book *book;
-
-    //Se recorren los libros leídos
-    while (bookPair != NULL)
-    {
-        book = bookPair->value;
-        Pair *auxWrd = firstTreeMap(book->wordFrequency);
-        //Se recorren todas las palabras de cada libro y se calcula su frecuencia
-        while (auxWrd != NULL)
-        {
-            ((Word*)(auxWrd->value))->frequency = (double)((Word*)(auxWrd->value))->appearances / (double)book->wordCount;
-            auxWrd = nextTreeMap(book->wordFrequency);
-        }
-        bookPair = nextTreeMap(sortedBooks);
-    }
+void setWordRelevance(Word *word, double documentCount, double totalMatches) {
+    word->relevance = relevance(documentCount, totalMatches, word->frequency);
 }
 
-//
+void setWordFrequency(Word* word, long wordsInBook)
+{
+    word->frequency = frequency(word->appearances, wordsInBook);
+}
+
+//Se obtiene la frecuencia de todas las palabras. Se ejecuta 
+// cuando se añade el libro.
+void setBookFrequency(Book* book)
+{
+    Pair *aux = firstTreeMap(book->wordFrequency);
+    while (aux != NULL)
+    {
+        Word *auxWord = aux->value;
+        setWordFrequency(auxWord, book->wordCount);
+        aux = nextTreeMap(book->wordFrequency);
+    }
+}
 void bookWithWords(TreeMap* sortedBooks)
 {
     char in[100];
@@ -454,7 +453,8 @@ populateExcludeMap()
         "also", "how", "our", "well", "even", "want", "because",
         "any", "most", "us", "are", "is", "had", "were", "went", 
         "ye", "thee", "thou", "thy", "hath"};
-    for (int i = 0; i < sizeof(excludeWords) / (100 * sizeof(char)); i++) {
+    int count = sizeof(excludeWords) / (100 * sizeof(char));
+    for (int i = 0; i < count; i++) {
         char *dup = _strdup(excludeWords[i]);
         insertTreeMap(excludeMap, dup, dup);
     }
@@ -475,14 +475,11 @@ relevance
         /*  coincidencias en todos los libros. Se actualiza cada vez
          *  que se añade un libro. */
                 float totalMatches, 
-        /*  coincidencias en el libro. Se mantiene constante. */
-                double bookMatches,
-        /*  palabras por libro. Se mantiene constante. */
-                double wordsInBook
+        /* frecuencia de la palabra en el libro */
+                float frequency
 )   {
-        double a = frequency(bookMatches, wordsInBook);
-        a *= logf(documentCount/totalMatches);
-        return a;
+        
+        return frequency *= logf(documentCount/totalMatches);
 }
 
 double 

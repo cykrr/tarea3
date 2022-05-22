@@ -51,7 +51,7 @@ List * readBooks();
  *  @return `Book` inicializado.
  *  @public @memberof Book
  */
-Book *createBook(char *id, HashMapSus* fileAppearances);
+Book *createBook(char *id);
 
 
 /** @brief Carga los libros y los ordena en el `OrderedTreeMap` `sortedBooks`

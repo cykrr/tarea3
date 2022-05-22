@@ -47,7 +47,7 @@ List * readBooks() {
  * realiza en la función countWords()*/
 
 Book*
-createBook(char *id, HashMapSus* fileAppearances)
+createBook(char *id)
 {
     Book *book = malloc(sizeof(Book));
     book->charCount = 0;
@@ -123,7 +123,7 @@ void loadBooks(List* books, OrderedTreeMap* sortedBooks, HashMapSus* fileAppeara
     char* id = listFirst(books);
     while (id != NULL)
     {
-        Book *book = createBook(id, fileAppearances);
+        Book *book = createBook(id);
 
         if(book != NULL && searchOrderedTreeMap(sortedBooks, book->title) == NULL)  {
             countWords(book, fileAppearances);

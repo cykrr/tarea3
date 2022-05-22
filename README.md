@@ -1,4 +1,4 @@
-# ¿Cómo  compilar y ejecutar la tarea? 
+# ¿Cómo  compilar y ejecutar la tarea? {#build}
 
 Para poder compilar el archivo de manera correcta hay que abrir una nueva terminal, en gitbash, luego hay que crear el archivo ejecutable de la siguiente manera: 
 ``gcc src/*.c -I include main.c``, de esta manera se creara "**a.exe**", y para poder ejecutarlo basta con introducir ``./a.exe`` en la terminal y el programa se ejecutaría sin ningún problema. 

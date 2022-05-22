@@ -3,8 +3,15 @@
 #include "treemap.h"
 #include "hashmap.h"
 #include "list.h"
+/** @defgroup menu Menú Principal */
+
+/** @addtogroup menu
+ *  @brief Menú Principal de la tarea 3
+ *  @{
+ */
 
 /** @brief Muestra el menú principal del programa
+ *  
  */
 void showMenu();
 
@@ -20,12 +27,12 @@ void showMenu();
  *  del libro ID, Titulo y populares, luego imprime las
  *  palabras ordenadas por su frecuencia.
  *
- *  @public @memberof Menu
+ *  
  */
 void mostFrequency(OrderedTreeMap* sortedBooks);
 
 /** @brief Buscar un libro por coincidencias 
- *  @param sortedBook Mapa ordenado con todos los libros ordenados 
+ *  @param sortedBooks Mapa ordenado con todos los libros ordenados 
  *      por titulo
  *
  *   Recibe las palabras a buscar separadas por un espacio.
@@ -34,7 +41,7 @@ void mostFrequency(OrderedTreeMap* sortedBooks);
  *   libros si estos poseen alguna de las palabras en 
  *   cuestión.
  *
- *  @public @memberof Menu
+ *  
  */
 void bookWithWords(OrderedTreeMap* sortedBooks);
 
@@ -45,7 +52,7 @@ void bookWithWords(OrderedTreeMap* sortedBooks);
  * Muestra el ID, Titulo, Cantidad de palabras y Cantidad de caracteres de todos los 
  * libros presentes.
  *
- *  @public @memberof Menu
+ *  
  */
 void showBooks(OrderedTreeMap *sortedMap);
 
@@ -63,13 +70,13 @@ void showBooks(OrderedTreeMap *sortedMap);
  *  Esta función recorre todos los libros buscando la palabra seleccionada
  *  Si el libro contiene la palabra que ingresó el usuario se inserta en 
  *  un montículo para así mostrarlas ordenadas por su frecuencia.
- * @public @memberof Menu
+ * 
  */
 void searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppearances);
 
 /** @brief Muestra una lista de libros
  *  @param list Lista del tipo Libro que contiene los libros a mostrar
- *  @public @memberof Menu
+ *  
  */
 void showList (List* list);
 
@@ -77,8 +84,10 @@ void showList (List* list);
 /** @brief Recibe la entrada de los libros a leer
  *  @return Lista enlazada con un `Book` por cada ID, en caso de que el 
  *      archivo exista.
- *  @public @memberof Menu
+ *  
  */
 List * readBooks();
+
+/** @} */
 
 #endif

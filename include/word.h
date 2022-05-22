@@ -3,14 +3,18 @@
 #include "list.h"
 #include "treemap.h"
 
-
-typedef struct Word {
-    char word[100];
-    double frequency;
-    int appearances;
-    double relevance;
+/** @brief Almacena información de las palabras
+ */
+typedef struct Word { 
+    char word[100]; /**< Almacena el string de la palabra.*/
+    double frequency; /**< Almacena la frecuencia de la palabra en el documento. */
+    int appearances; /**< Almacena las apariciones de la palabra en el documento. */
+    double relevance; /**< Almacena la relevancia de la palabra. */
 } Word;
 
+/** @brief Muestra Una palabra en su contexto.
+ *  @public @memberof Menu
+ */
 void showWordContext(OrderedTreeMap *map);
 
 

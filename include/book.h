@@ -56,20 +56,76 @@ Book *createBook(char *id);
 
 /** @brief Carga los libros y los ordena en el `OrderedTreeMap` `sortedBooks`
  *
+ *  @param books Lista con los ID como string de los libros a cargar
+ *  
+ *  @param sortedBooks `OrderedTreeMap` donde se ordenarán los libros 
+ *      una vez cargados.
+ *
+ *  @param fileAppearances HashMap con la cantidad de ocurrencias de
+ *      todas las palabras en todos los documentos.
+ *
+ *  @param count Puntero a `int` con la cantidad de documentos cargados.
+ *
  *  Procesa la lista de strings `books`, la cual posee los ID de los
  *  libros a importar. Por cada string encontrada en la lista 
  *  se crea un tipo `Book`.
+ *  Si el `Book` creado no se encuentra en el `OrderedTreeMap` `sortedBooks`
+ *  entonces se contarán las palabras y se calculará la frecuencia de 
+ *  las palabras en dicho libro. Si todo sale bien se insertará el libro
+ *  en el `OrderedTreeMap` `sortedBooks` y se aumenta el contador de libros
+ *  `count`.
  *  
  *  @public @memberof Book
  */
 void loadBooks(List *books, OrderedTreeMap *sortedBooks, 
         HashMapSus* fileAppearances, int *count);
 
+/** @brief muestra todos los libros en el Mapa `sortedMap`
+ *  
+ *  @param sortedMap `OrderedTreeMap` con todos los libros ordenados por título.
+ *
+ * Muestra el ID, Titulo, Cantidad de palabras y Cantidad de caracteres de todos los 
+ * libros presentes.
+ *
+ *  @public @memberof Book
+ */
 void showBooks(OrderedTreeMap *sortedMap);
 
+/** @brief Cuenta la cantidad de apariciones de las palabras.
+ *  
+ *  @param book Libro a procesar
+ *
+ *  @param fileAppearances HashMap con todas las apariciones 
+ *      de todas las palabras en todos los documentos.
+ *
+ *  Recorre el libro palabra por palabra y elimina los caracteres
+ *  que intervengan con el análisis. Se convierte temporalmente
+ *  la palabra a minusculas y se revisa si está en los mapas.
+ *  De ser así, se le aumenta uno a su contador y de lo
+ *  contrario se añade.
+ *
+ *  @public @memberof Book
+ */
 void countWords(Book *book, HashMapSus* fileAppearances);
 
+/**
+ *  @brief Función del menú que busca un libro en base a la coincidencia
+ *      de palabras
+ *
+ *  @param map Mapa Ordenado con los libros ordenados por titulo.
+ *
+ *  @param docCount Cantidad de documentos cargados.
+ *
+ *  @param fileAppearances HashMap con todas las apariciones 
+ *      de todas las palabras en todos los documentos.
+ *
+ *  Esta función recorre todos los libros buscando la palabra seleccionada
+ *  Si el libro contiene la palabra que ingresó el usuario se inserta en 
+ *  un montículo para así mostrarlas ordenadas por su frecuencia.
+ * @public @memberof Menu
+ */
 void searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppearances);
+
 
 void showBook(Book *book, Word *word);
 

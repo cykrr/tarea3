@@ -126,11 +126,30 @@ void countWords(Book *book, HashMapSus* fileAppearances);
  */
 void searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppearances);
 
-
+/** 
+ * @brief Muestra el ID, Titulo, Apariciones y relevancia de un libro
+ * @param book libro a mostrar.
+ * @param word palabra de la cual mostrar detalles.
+ */
 void showBook(Book *book, Word *word);
 
+/** @brief Obtiene la relevancia de todas las palabras
+ *
+ *  @param map Mapa con todos los libros ordenados por nombre
+ *
+ *  @param totalDocuments cantidad total de documentos cargados
+ *
+ *  @param fileAppearances HashMap con todas las apariciones 
+ *      de todas las palabras en todos los documentos.
+ *
+ *  Recorre el mapa de libros y libro por libro calcula
+ *  la relevancia de todas las palabras.
+ *  @public @memberof Book
+ */ 
 void getRelevance (OrderedTreeMap *map, int totalDocuments, HashMap* fileAppearances);
 
+/** @brief Muestra las 10 palabras más relevantes de un libro solicitado
+ */
 void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, long docCount);
 
 void mostFrequency(OrderedTreeMap* sortedBooks);

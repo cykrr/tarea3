@@ -39,8 +39,8 @@ int main() {
                 books = readBooks();
                 loadBooks(books, sortedBooks, fileAppearances,
                         &bookCount);
-                getRelevance(sortedBooks, bookCount, fileAppearances);
-                getFrequency(sortedBooks);
+                // getRelevance(sortedBooks, bookCount, fileAppearances);
+                // getFrequency(sortedBooks);
                 break;
             }
             case 2:

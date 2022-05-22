@@ -47,4 +47,25 @@ void bookWithWords(TreeMap* sortedBooks);
 //
 
 TreeMap *populateExcludeMap();
+
+double relevance(
+        /* la cantidad de documentos. Se actualiza cada vez que
+         * se añade un libro. */
+                float documentCount,
+        /*  coincidencias en todos los libros. Se actualiza cada vez
+         *  que se añade un libro. */
+                float totalMatches, 
+        /*  coincidencias en el libro. Se mantiene constante. */
+                double bookMatches,
+        /*  palabras por libro. Se mantiene constante. */
+                double wordsInBook);
+
+double 
+frequency( 
+        /*  coincidencias en el libro. Se mantiene constante. */
+                double bookMatches,
+        /*  palabras por libro. Se mantiene constante. */
+                double wordsInBook
+);
+
 #endif

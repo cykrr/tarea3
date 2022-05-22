@@ -39,6 +39,11 @@ List * readBooks() {
     return ret;
 }
 
+/* Es necesario actualizar en cada palabra del libro 
+ * la cantidad de coincidencias, así como actualizarlas 
+ * en las coincidencias en todos los libros. Esto se 
+ * realiza en la función countWords()*/
+
 Book*
 createBook(char *id, TreeMap* fileAppearances)
 {
@@ -126,6 +131,10 @@ void loadBooks(List* books, TreeMap* sortedBooks, TreeMap* fileAppearances, int 
     }
 }
 
+/* contamos una vez por cada libro su cantidad de palabras y
+ * caracteres. A la vez las añadimos al mapa de ocurrencias 
+ * en todos los libros (fileAppeareances). También obtenemos
+ * la posición de la palabra */
 void 
 countWords(Book *book, TreeMap* fileAppearances)
 {
@@ -455,4 +464,38 @@ populateExcludeMap()
         insertTreeMap(excludeMap, dup, dup);
     }
     return excludeMap;
+}
+
+void updateBookRelevance(Book *book) {
+
+}
+
+
+double 
+relevance
+(
+        /* la cantidad de documentos. Se actualiza cada vez que
+         * se añade un libro. */
+                float documentCount,
+        /*  coincidencias en todos los libros. Se actualiza cada vez
+         *  que se añade un libro. */
+                float totalMatches, 
+        /*  coincidencias en el libro. Se mantiene constante. */
+                double bookMatches,
+        /*  palabras por libro. Se mantiene constante. */
+                double wordsInBook
+)   {
+        double a = frequency(bookMatches, wordsInBook);
+        a *= logf(documentCount/totalMatches);
+        return a;
+}
+
+double 
+frequency( 
+        /*  coincidencias en el libro. Se mantiene constante. */
+                double bookMatches,
+        /*  palabras por libro. Se mantiene constante. */
+                double wordsInBook
+) {
+       return (bookMatches / wordsInBook);
 }

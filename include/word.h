@@ -9,7 +9,6 @@ typedef struct Word {
     double frequency;
     int appearances;
     double relevance;
-    List *positions;
 } Word;
 
 void showWordContext(TreeMap *map);

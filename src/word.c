@@ -1,6 +1,7 @@
 #include "word.h"
 #include "book.h"
 #include <stdio.h>
+#include <string.h>
 void 
 showWordContext(TreeMap *bookMap) 
 {
@@ -15,21 +16,17 @@ showWordContext(TreeMap *bookMap)
     scanf("%[^\n]*s", word);
     getchar();
     Book *book = searchTreeMap(bookMap, str)->value;
+    char line[1024];
+    char lineLower[1024];
+    rewind(book->fd);
+    while (fgets(line, 1023, book->fd))
+    {
+        strcpy(lineLower, line);
+        stringToLower(lineLower);
 
-    Word *wordInBook = searchTreeMap(book->wordFrequency, word)->value;
-
-    List *positionList = wordInBook->positions;
-    for(long *pos = listFirst(positionList); pos != NULL; pos = listNext(positionList)) {
-        fseek(book->fd, *pos , SEEK_SET);
-        fseek(book->fd, -50 , SEEK_CUR);
-        char outWord[50];
-        putchar('\n');
-        for (int i = 0; i < 20; i ++) {
-            fscanf(book->fd, "%s",  outWord);
-            printf("%s ", outWord);
+        if (strstr(lineLower, word) != 0)
+        {
+            printf("%s\n", line);
         }
-        putchar('\n');
-
-
-    }
+    }   
 }

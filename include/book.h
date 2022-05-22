@@ -149,9 +149,15 @@ void showBook(Book *book, Word *word);
 
 void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, long docCount);
 
+
+/** @brief Muestra las palabras con mayor frecuencia
+ *
+ *  @param sortedBooks Mapa de todos los libros ordenados por nombre.
+ *
+ *  @public @memberof Menu
+ */
 void mostFrequency(OrderedTreeMap* sortedBooks);
 
-void getFrequency(OrderedTreeMap* sortedBooks);
 
 void bookWithWords(OrderedTreeMap* sortedBooks);
 

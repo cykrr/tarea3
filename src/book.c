@@ -6,16 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-
 #include "hashmap.h"
-
-
-int inverse_lower_than_string(void* key1, void* key2){
-    char* k1=(char*) key1;
-    char* k2=(char*) key2;
-    if(strcmp(k2,k1)<0) return 1;
-    return 0;
-}
 
 void showList (List* list)
 {
@@ -74,10 +65,13 @@ createBook(char *id)
     }
 
     char word[100] = "";
+    //Se lee la primera linea hasta encontrar un of.
     while (strcmp(word, "of") != 0)
         fscanf(book->fd, "%99s", word);
 
+    //Se quita el espacio que viene despues del of.
     fgetc(book->fd);
+    //Se obtiene el resto de la linea.
     fgets(book->title, 99, book->fd);
 
     // Eliminar el Autor si es que existe.
@@ -106,6 +100,7 @@ void showBooks(OrderedTreeMap *sortedMap)
         return;
     }
 
+    //Ciclo que recorre todos los libros ingresados.
     while (bookPair != NULL) 
     {
         book = bookPair->value;
@@ -125,6 +120,7 @@ void loadBooks(List* books, OrderedTreeMap* sortedBooks, HashMapSus* fileAppeara
     {
         Book *book = createBook(id);
 
+        //Si el libro no se encontraba se agrega y se cuentan las palabras y se calcula su frecuencia.
         if(book != NULL && searchOrderedTreeMap(sortedBooks, book->title) == NULL)  {
             countWords(book, fileAppearances);
             setBookFrequency(book);
@@ -144,45 +140,34 @@ void loadBooks(List* books, OrderedTreeMap* sortedBooks, HashMapSus* fileAppeara
 void 
 countWords(Book *book, HashMapSus* fileAppearances)
 {
+    //Mapa que contiene las palabras a excluir.
     OrderedTreeMap *exclude = populateExcludeMap();
 
-    /*
-    printf("INICIO MAPA\n");
-    Pair *aux = firstOrderedTreeMap(exclude);
-    while (aux != NULL) {
-        char *i = aux->value;
-        printf("%s\n", i);
-        aux = nextOrderedTreeMap(exclude);
-    }
-    printf("FINAL MAPA\n");
-    */
-
     char * x = malloc(1024 * sizeof (char) );
-    rewind(book->fd);
-    // palabra x palabra
+    rewind(book->fd);//Se devuelve al comienzo del archivo
+
+    // Se obtiene el archivo palabra por palabra.
     while (fscanf(book->fd, " %1023s", x) == 1) 
     {
         book->charCount += strlen(x);
         (book->wordCount)++;
         quitar_caracteres(x, "[]{}’”“?,.\":;/!-_()\'=*%%");
         stringToLower(x);
-     //   printf("%s: ",x );
 
+        //Si la palabra se tiene que excluir no se cuenta.
         if (searchOrderedTreeMap(exclude, x) != NULL)
         {
             continue;
         }
 
-      //  printf("\n");
-
-        //printf("%s ", (char*)x);
         HashMapPair *aux = searchMap(book->wordFrequency, x);
 
+        //Si la pabra no se encontraba se inserta en el mapa
         if (aux == NULL)
         {
             Word *word = malloc(sizeof(Word));
             strcpy(word->word, x);
-            word->appearances = 1;
+            word->appearances = 1;//Apariciones se inicializa en 1
 
             insertMap(book->wordFrequency, word->word, word);
             //Contar apariciones de una palabra en el archivo
@@ -194,6 +179,7 @@ countWords(Book *book, HashMapSus* fileAppearances)
                 insertMapSus(fileAppearances, word->word, 1);
             }
         } 
+        //Si existe solo aumentamos las apariciones.
         else 
         {
             ((Word*)(aux->value))->appearances++;

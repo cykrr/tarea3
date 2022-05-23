@@ -240,38 +240,6 @@ showBook(Book *book, Word *word)
     printf("Relevancia: %lf\n", word->relevance);
 }
 
-void getRelevance (OrderedTreeMap *map, int totalDocuments, HashMap* fileAppearances)
-{
-    Pair *aux = firstOrderedTreeMap(map);
-    while (aux != NULL) {
-//        printf("Libro: %s\n", ((Book*)aux->value)->title);
-        HashMapPair *aux2 = firstMap(((Book*)aux->value)->wordFrequency);
-        while (aux2 != NULL) {
-//            printf("Palabra: %s ", (char*)aux2->key);
-
-            
-            HashMapPair *tmp = searchMap(fileAppearances, aux2->key);
-
-            double a = (double)(((Word*)(aux2->value))->appearances) / (double)((Book*)(aux->value))->wordCount;
-                 a *= 
-                     logf(
-                         ((double)totalDocuments)
-                       / 
-                         (double)(*(int*)(tmp->value))
-                  );
-            ((Word*)(aux2->value))->relevance = a;
-     //       printf("%d\n", totalDocuments);
-     //       printf("%d\n", ((Word*)(aux2->value))->appearances);
-     //       printf("%ld\n", ((Book*)(aux->value))->wordCount);
-     //       printf("%d\n", *((int*)(tmp->value)));
-            printf("%lf\n", a);
-
-            aux2 = nextMap(((Book*)aux->value)->wordFrequency);
-        }
-
-        aux = nextOrderedTreeMap(map);
-    }
-}
 
 void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, long docCount)
 {

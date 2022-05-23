@@ -30,7 +30,7 @@ void showList (List* list)
 
 List * readBooks() {
     printf("Ingrese los ID de los libros a leer: \n");
-    char ids[100];
+    char ids[512];
 
     fflush(stdin);
     scanf("%[^\n]*s", ids);

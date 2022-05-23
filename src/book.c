@@ -172,10 +172,15 @@ countWords(Book *book, HashMapSus* fileAppearances)
             insertMap(book->wordFrequency, word->word, word);
             //Contar apariciones de una palabra en el archivo
             HashMapSusPair *tmp = searchMapSus(fileAppearances, word->word);
+
+            //Si la palabra ya se encontraba en el mapa de apariciones se aumenta
             if (tmp != NULL) 
             {
                 (tmp->value)++;
-            } else {
+            }
+            //Sino se inserta y se inicializa en 1. 
+            else 
+            {
                 insertMapSus(fileAppearances, word->word, 1);
             }
         } 
@@ -190,7 +195,7 @@ countWords(Book *book, HashMapSus* fileAppearances)
 void 
 searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppeareances) 
 {
-    char in[50];
+    char in[100];
     printf("Ingrese la palabra a buscar: ");
     scanf("%[^\n]*s", in);
     getchar();
@@ -208,6 +213,7 @@ searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppeareances)
             Word * auxWordWord = auxWord->value;
             
             HashMapSusPair *auxint = searchMapSus(fileAppeareances, in);
+            //Si el dato obtenido no es NULL se obtiene la frecuencia y relevancia.
             if (auxint) {
                 auxWordWord->frequency = frequency(auxWordWord->appearances, auxBook->wordCount);
                 setWordRelevance(auxWordWord, docCount, auxint->value);
@@ -222,6 +228,7 @@ searchBooks(OrderedTreeMap *map, int docCount, HashMapSus *fileAppeareances)
         printf("Ningun libro contenia la palabra\n");
     }
 
+    //Muestra los libros ordenados por relevancia.
     while (heap_top(heap)) 
     {
         auxBook = heap_top(heap);
@@ -248,20 +255,6 @@ void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, lo
     scanf("%[^\n]*s", in);
     getchar();
 
-
-    /*
-    Pair *a = firstOrderedTreeMap(sortedBooks);
-    int j = 0;
-    while (a != NULL) {
-        char *i = a->key;
-        printf("%d\n %s..\n",j, i);
-        j++;
-
-        a = nextOrderedTreeMap(sortedBooks);
-    }
-   
-    */
-
     /* Vemos si el libro existe */
     Pair *aux = searchOrderedTreeMap(sortedBooks, in);
     if (aux == NULL)
@@ -277,20 +270,23 @@ void relevantWords(OrderedTreeMap* sortedBooks, HashMapSus *fileAppeareances, lo
 
 
     HashMapPair* auxWord = firstMap(auxBook->wordFrequency);
+    //Se recorre el mapa de palabras.
     while (auxWord != NULL) 
     {
         Word * auxWordWord = auxWord->value;
         HashMapSusPair *aux = searchMapSus(fileAppeareances, auxWordWord->word);
         if(aux != NULL)
         setWordRelevance(auxWordWord, docCount, aux->value);
-        else 
-            setWordRelevance(auxWordWord, docCount, 0);
+        /*else 
+            setWordRelevance(auxWordWord, docCount, 1);*/
+        //Se inserta la palabra en el heap con relevancia como prioridad.
         heap_push(heap, auxWordWord, auxWordWord->relevance);
         auxWord = nextMap(auxBook->wordFrequency);
     }
 
     int i = 0;
-    while (i < 10 )
+    //Se muestran solo las 10 palabras mas relevantes del libro.
+    while (i < 10)
     {
         Word *word = heap_top(heap);
         printf("%s: %lf\n", word->word, word->relevance);

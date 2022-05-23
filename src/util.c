@@ -26,6 +26,7 @@ List *strToList(const char *string, const char* delim)
     return list;
 }
 
+//Función utilizada para los mapas
 int lower_than_string(void* key1, void* key2){
     char* k1=(char*) key1;
     char* k2=(char*) key2;
@@ -33,6 +34,7 @@ int lower_than_string(void* key1, void* key2){
     return 0;
 }
 
+//Convierte todos los caracteres a minusculas.
 char* stringToLower(char* words)
 {
     int i = 0;
@@ -44,6 +46,7 @@ char* stringToLower(char* words)
     return words;
 }
 
+//Función que comprueba si hay que eliminar un caracter.
 int hayQueEliminar(char c, char* string_chars)
 {
     for(int i=0 ; i<strlen(string_chars) ; i++)
@@ -55,25 +58,21 @@ int hayQueEliminar(char c, char* string_chars)
 
 #include <stdio.h>
 
+//Función que quita los caracteres excluidos.
 char* quitar_caracteres(char* string, char* c)
 {
-//    printf("Antes: %s\n", string);
- //   printf("Caracteres: %s\n", c);
     int j;
     int i;
     for(i = 0; i < strlen(string); i++ ) 
     {
-//        printf("i: %d, %c, %d\n", 
- //               i, string[i],
-  //              hayQueEliminar(string[i], c));
+
         if (hayQueEliminar(string[i], c)) 
         {
-            for(j = i; j < strlen(string); j++ ) {
-   //             printf("%c ", string[j]);
+            for(j = i; j < strlen(string); j++ ) 
+            {
                 string[j] = string[j+1];
             }
             i--;
-    //        printf("\n %s\n",string);
         }
 
     }
@@ -81,7 +80,7 @@ char* quitar_caracteres(char* string, char* c)
     return string;
 }
 
-
+//Función utilizada para el HashMap.
 int is_equal(void* key1, void* key2)
 {
     if(key1==NULL || key2==NULL) return 0;

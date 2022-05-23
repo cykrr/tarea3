@@ -367,35 +367,46 @@ void setBookFrequency(Book* book)
         aux = nextMap(book->wordFrequency);
     }
 }
+
+/*Funcion que muestra los libros que contienen 
+/*todas las palabras ingresadas*/
 void bookWithWords(OrderedTreeMap* sortedBooks)
 {
     char in[100];
     printf("Ingrese las palabras a buscar: ");
     scanf("%[^\n]s", in);
     getchar();
-    stringToLower(in);
-    List *ret = strToList(in, " ");
+    stringToLower(in);//Se pasan todas las palabras a minusculas.
+    List *ret = strToList(in, " ");//Se seaparan por el espacio y se crea una lista con cada palabra.
 
     Pair *bookPair = firstOrderedTreeMap(sortedBooks);
+    //En caso de que ningun documento a sido leido
     if (bookPair == NULL)
     {
         printf("No se ha ingresado ningun documento\n");
         return;
     }
     Book *book;
-    int flag;
+    int flag;//Si es 0 una palabra no se encontraba/si es 1 se encontraba.
     HashMapPair *auxWrd;
+    //Se recorren todos los libros.
     while (bookPair != NULL)
     {
         flag = 1;
         book = bookPair->value;
         char* words = (char*)listFirst(ret);
+        //Se recorre la lista completa de palabras ingresadas
         while (words != NULL)
         {
             auxWrd = searchMap(book->wordFrequency, words);
-            if (auxWrd == NULL) flag = 0;
+            //Si la palabra no se encontraba se cambia el valor a 0
+            if (auxWrd == NULL) 
+            {
+                flag = 0;
+            }
             words = (char*)listNext(ret);
         }
+        //Si todas las palabras se encontraban se muestra el titulo.
         if (flag == 1)
         {
             printf("%s\n", book->title);
@@ -423,6 +434,7 @@ populateExcludeMap()
         "any", "most", "us", "are", "is", "had", "were", "went", 
         "ye", "thee", "thou", "thy", "hath", "has", "may", "more"};
     int count = sizeof(excludeWords) / (100 * sizeof(char));
+    //Se insertan las palabras al mapa de exclusion
     for (int i = 0; i < count; i++) {
         char *dup = _strdup(excludeWords[i]);
         insertOrderedTreeMap(excludeMap, dup, dup);

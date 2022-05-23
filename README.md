@@ -9,9 +9,9 @@ Todas las funciones del programa funcionan de manera correcta.
 
 # Aspectos positivos y a mejorar de cada integrante:
 * Benjamín:
-	* (+) Buena disposición al momento de trabajar y gran manejo de la materia.
+	* (+) Buena disposición al momento de trabajar y gran manejo de la materia.ඞ
 * Arturo:
-	* (+) Buen dominio de las estructuras de datos.
+	* (+) Buen dominio de las estructuras de datos.ඞ
 ## Puntos premio/castigo a cada integrante según el trabajo hecho:
 * Benjamín: 0
 * Arturo: 0
